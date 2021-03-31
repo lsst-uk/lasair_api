@@ -1,1 +1,1 @@
-from lasair import *
+from .lasair import *
