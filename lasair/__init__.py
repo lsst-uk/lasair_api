@@ -1,1 +1,1 @@
-from . import lasair_external
+from lasair import *
