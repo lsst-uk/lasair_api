@@ -13,11 +13,6 @@ Args:
     cache (string): Results can be cached on a local filesystem, by providing 
     the name of a writable directory. If the same calls are made repeatedly, 
     this will be much more efficient.
-
-    Each method may have this argument:
-    access (string): This can change the way calls are executed. The default value 
-    'api' means that calls go through the Lasair webserver. Other values are 
-    suitable for using the api on a high-performache environment.
 """
 import os, sys
 import requests
@@ -67,9 +62,9 @@ class lasair_client():
         h = hashlib.md5(s.encode())
         return h.hexdigest()
 
-    def fetch(self, method, input, access='api'):
+    def fetch(self, method, input):
         if self.cache:
-            cached_file = '%s/%s.json' % (self.cache, self.hash_it(method +'/'+ input))
+            cached_file = '%s/%s.json' % (self.cache, self.hash_it(method +'/'+ str(input)))
             try:
                 result_txt = open(cached_file).read()
                 result = json.loads(result_txt)
@@ -77,8 +72,7 @@ class lasair_client():
             except:
                 pass
 
-        if access == 'api':
-            result = self.fetch_from_server(method, input)
+        result = self.fetch_from_server(method, input)
 
         if 'error' in result:
             return result
@@ -91,7 +85,7 @@ class lasair_client():
 
         return result
 
-    def cone(self, ra, dec, radius=5, requestType='all', access='api'):
+    def cone(self, ra, dec, radius=5, requestType='all'):
         """ Run a cone search on the Lasair database.
         Args:
             ra (float): Right Ascension in decimal degrees
@@ -109,7 +103,7 @@ class lasair_client():
         result = self.fetch('cone', input)
         return result
 
-    def query(self, selected, tables, conditions, limit=1000, offset=0, access='api'):
+    def query(self, selected, tables, conditions, limit=1000, offset=0):
         """ Run a database query on the Lasair server.
         args: 
             selected (string): The attributes to be returned by the query
@@ -125,7 +119,7 @@ class lasair_client():
         result = self.fetch('query', input)
         return result
 
-    def streams_topics(self, regex='.*', limit=1000, access='api'):
+    def streams_topics(self, regex='.*', limit=1000):
         """ Get a list of available streams that match a given expression.
         args:
             regex (string, default .*): Search for stream names that match a pattern
@@ -137,7 +131,7 @@ class lasair_client():
         result = self.fetch('streams', input)
         return result
 
-    def streams(self, topic, limit=1000, access='api'):
+    def streams(self, topic, limit=1000):
         """ Get records from a given stream
         args:
             topic (string): Name of stream to be returned.
@@ -148,7 +142,7 @@ class lasair_client():
         result = self.fetch('streams/%s/'%topic, input)
         return result
 
-    def objects(self, objectIds, access='api'):
+    def objects(self, objectIds):
         """ Get object pages in machine-readable form
         args:
             objectIds: list of objectIds, maximum 10
@@ -160,7 +154,7 @@ class lasair_client():
         result = self.fetch('objects', input)
         return result
 
-    def lightcurves(self, objectIds, access='api'):
+    def lightcurves(self, objectIds):
         """ Get simple lightcurves in machine-readable form
         args:
             objectIds: list of objectIds, maximum 10
@@ -173,7 +167,7 @@ class lasair_client():
         result = self.fetch('lightcurves', input)
         return result
 
-    def sherlock_objects(self, objectIds, lite=True, access='api'):
+    def sherlock_objects(self, objectIds, lite=True):
         """ Query the Sherlock database for context information about objects
             in the database.
         args:
@@ -187,7 +181,7 @@ class lasair_client():
         result = self.fetch('sherlock/objects', input)
         return result
 
-    def sherlock_position(self, ra, dec, lite=True, access='api'):
+    def sherlock_position(self, ra, dec, lite=True):
         """ Query the Sherlock database for context information about a position
             in the sky.
         args:
