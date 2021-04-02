@@ -42,12 +42,6 @@ CLASSES
                objectId: The ID of the nearest object
                separation: the separation in arcseconds
        
-       fetch(self, method, input)
-       
-       fetch_from_server(self, method, input)
-       
-       hash_it(self, input)
-       
        lightcurves(self, objectIds)
            Get simple lightcurves in machine-readable form
            args:
@@ -111,4 +105,3 @@ CLASSES
                limit: (int, default 1000): Maximum number of stream names to return.
            return:
                List of stream names
-       
