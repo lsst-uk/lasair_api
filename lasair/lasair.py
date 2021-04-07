@@ -177,7 +177,7 @@ class lasair_client():
         return:
             list of dictionaries, one for each objectId.
         """
-        input = {'objectIds':','.join(objectIds)}
+        input = {'objectIds':','.join(objectIds), 'lite':lite}
         result = self.fetch('sherlock/objects', input)
         return result
 
