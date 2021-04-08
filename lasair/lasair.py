@@ -115,7 +115,8 @@ class lasair_client():
             a list of dictionaries, each representing a row
         """
         
-        input = {'selected':selected, 'tables':tables, 'conditions':conditions, 'limit':limit}
+        input = {'selected':selected, 'tables':tables, 'conditions':conditions, 
+            'limit':limit, 'offset':offset}
         result = self.fetch('query', input)
         return result
 
