@@ -28,6 +28,7 @@ class lasair_client():
         self.headers = { 'Authorization': 'Token %s' % token }
         self.server = 'https://lasair-iris.roe.ac.uk/api'
         self.cache = cache
+        self.kafka_producer = None
         if cache and not os.path.isdir(cache):
             message = 'Cache directory "%s" does not exist' % cache
             raise LasairError(message)
@@ -50,7 +51,7 @@ class lasair_client():
             message = 'Request limit exceeded. Either wait an hour, or see API documentation to increase your limits.'
             raise LasairError(message)
         elif r.status_code == 500:
-            message = 'Internal Server Error'
+            message = 'Internal Server Error' + r.text
             raise LasairError(message)
         else:
             message = 'HTTP return code %d' % r.status_code
@@ -196,3 +197,86 @@ class lasair_client():
         input = {'ra':ra, 'dec':dec, 'lite':lite}
         result = self.fetch('sherlock/position', input)
         return result
+
+    try:
+        from confluent_kafka import Consumer, Producer
+        imported_kafka = True
+    except ImportError:
+        imported_kafka = False
+ 
+    def stream_consumer(self, group_id, topic_in):
+        """ Consume a Kafka stream from Lasair
+        args:
+            group_id: a string. If used before, the server will start from last message
+            topic_in: The topic to be consumed. Example 'lasair_2SN-likecandidates'
+        Will fail if for some reason the confluent_kafka library cannot be imported.
+        Connects to Lasair public kafka to get the chosen topic.
+        Once you have the returned consumer object, run it with poll() like this:
+        loop:
+            msg = consumer.poll(timeout=20)
+            if msg is None: break  # no messages to fetch
+            if msg.error(): 
+                print(str(msg.error()))
+                break
+            jmsg = json.loads(msg.value())  # msg will be in json format
+        """
+        if not imported_kafka:
+            message = 'Cannot import confluent_kafka'
+            raise LasairError(message)
+
+        settings = { 
+          'bootstrap.servers': 'kafka.lsst.ac.uk:9092',
+          'group.id': group_id,
+          'default.topic.config': {'auto.offset.reset': 'smallest'}
+        }
+        c = Consumer(settings)
+        c = consumer.subscribe([topic_in])
+        return c
+
+    def annotate_init(self, username, password, topic_out):
+        """ Tell the Lasair client that you will be producing annotations
+        args:
+            username: as given to you by Lasair staff
+            password: as given to you by Lasair staff
+            topic_out: as given to you by Lasair staff
+        Will fail if for some reason the confluent_kafka library cannot be imported.
+        """
+        if not imported_kafka:
+            message = 'Cannot import confluent_kafka'
+            raise LasairError(message)
+        conf = { 
+            'bootstrap.servers': 'kafka-pub:29092',
+            'security.protocol': 'SASL_PLAINTEXT',
+            'sasl.mechanisms': 'SCRAM-SHA-256',
+            'sasl.username': username,
+            'sasl.password': password
+        }
+        self.topic_out = topic_out
+        self.kafka_producer = Producer(conf)
+        return
+
+    def annotate_send(self, msg):
+        """ Send an annotation to Lasair
+        args:
+            msg: A python dictionary that has at least the keys
+                objectId and classification, whose values are strings
+        Will fail if annotate_init has not been called
+        """
+        if not self.kafka_producer:
+            raise LasairError('Must call annotate_init first')
+        if not type(msg) is dict :
+            raise LasairError('Only a dictionary can be sent as annotation message')
+        if not 'objectId' in msg:
+            raise LasairError('objectId must be present in annotation message')
+        if not 'classification' in msg:
+            raise LasairError('classification must be present in annotation message')
+        msg['topic'] = topic_out
+        self.kafka_producer.produce(self.topic_out, json.dumps(msg))
+
+    def annotate_flush(self):
+        """ Finish an annotation session and close the producer
+            If not called, your annotaityons will not go through!
+        """
+        if self.kafka_producer:
+            self.kafka_producer.flush()
+
