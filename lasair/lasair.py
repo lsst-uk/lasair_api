@@ -18,6 +18,7 @@ import os, sys
 import requests
 import json
 import hashlib
+from confluent_kafka import Consumer, Producer
 
 class LasairError(Exception):
     def __init__(self, message):
@@ -198,12 +199,6 @@ class lasair_client():
         result = self.fetch('sherlock/position', input)
         return result
 
-    try:
-        from confluent_kafka import Consumer, Producer
-        imported_kafka = True
-    except ImportError:
-        imported_kafka = False
- 
     def stream_consumer(self, group_id, topic_in):
         """ Consume a Kafka stream from Lasair
         args:
@@ -220,17 +215,13 @@ class lasair_client():
                 break
             jmsg = json.loads(msg.value())  # msg will be in json format
         """
-        if not imported_kafka:
-            message = 'Cannot import confluent_kafka'
-            raise LasairError(message)
-
         settings = { 
           'bootstrap.servers': 'kafka.lsst.ac.uk:9092',
           'group.id': group_id,
           'default.topic.config': {'auto.offset.reset': 'smallest'}
         }
         c = Consumer(settings)
-        c = consumer.subscribe([topic_in])
+        c.subscribe([topic_in])
         return c
 
     def annotate_init(self, username, password, topic_out):
@@ -241,9 +232,6 @@ class lasair_client():
             topic_out: as given to you by Lasair staff
         Will fail if for some reason the confluent_kafka library cannot be imported.
         """
-        if not imported_kafka:
-            message = 'Cannot import confluent_kafka'
-            raise LasairError(message)
         conf = { 
             'bootstrap.servers': 'kafka-pub:29092',
             'security.protocol': 'SASL_PLAINTEXT',
@@ -251,32 +239,45 @@ class lasair_client():
             'sasl.username': username,
             'sasl.password': password
         }
+        print(conf)
         self.topic_out = topic_out
         self.kafka_producer = Producer(conf)
-        return
+        print(self.kafka_producer)
+        if self.kafka_producer: return True
+        else:                   return False
 
-    def annotate_send(self, msg):
+    def annotate_send(self, objectId, classification, \
+            version=None, explanation=None, classdict=None, url=None):
         """ Send an annotation to Lasair
         args:
-            msg: A python dictionary that has at least the keys
-                objectId and classification, whose values are strings
+            objectId      : the object that this annotation should be attached to
+            classification: short string for the classification
+            version       : the version of the annotation engine
+            explanation   : natural language explanation
+            classdict     : dictionary with further information
         Will fail if annotate_init has not been called
         """
-        if not self.kafka_producer:
+
+        if self.kafka_producer == None:
             raise LasairError('Must call annotate_init first')
-        if not type(msg) is dict :
-            raise LasairError('Only a dictionary can be sent as annotation message')
-        if not 'objectId' in msg:
-            raise LasairError('objectId must be present in annotation message')
-        if not 'classification' in msg:
-            raise LasairError('classification must be present in annotation message')
-        msg['topic'] = topic_out
+
+        msg = {
+            'objectId'      : objectId, 
+            'topic'         : self.topic_out,
+            'classification': classification,
+        }
+
+        if version    : msg['version']     = version
+        if explanation: msg['explanation'] = explanation
+        if classdict  : msg['jsondict']    = classdict
+        if url        : msg['url']         = url
+
         self.kafka_producer.produce(self.topic_out, json.dumps(msg))
 
     def annotate_flush(self):
         """ Finish an annotation session and close the producer
             If not called, your annotaityons will not go through!
         """
-        if self.kafka_producer:
+        if self.kafka_producer != None:
             self.kafka_producer.flush()
 

@@ -130,11 +130,15 @@ CLASSES
                 topic_out: as given to you by Lasair staff
             Will fail if for some reason the confluent_kafka library cannot be imported.
 
-        annotate_send(self, msg):
+        def annotate_send(self, objectId, classification, \
+                version=None, explanation=None, classdict=None, url=None):
             Send an annotation to Lasair
             args:
-                msg: A python dictionary that has at least the keys
-                    objectId and classification, whose values are strings
+                objectId      : the object that this annotation should be attached to
+                classification: short string for the classification
+                version       : the version of the annotation engine
+                explanation   : natural language explanation
+                classdict     : dictionary with further information
             Will fail if annotate_init has not been called
 
         annotate_flush(self):
