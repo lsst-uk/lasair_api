@@ -198,3 +198,86 @@ class lasair_client():
         input = {'ra':ra, 'dec':dec, 'lite':lite}
         result = self.fetch('sherlock/position', input)
         return result
+
+    def stream_consumer(self, group_id, topic_in):
+        """ Consume a Kafka stream from Lasair
+        args:
+            group_id: a string. If used before, the server will start from last message
+            topic_in: The topic to be consumed. Example 'lasair_2SN-likecandidates'
+        Will fail if for some reason the confluent_kafka library cannot be imported.
+        Connects to Lasair public kafka to get the chosen topic.
+        Once you have the returned consumer object, run it with poll() like this:
+        loop:
+            msg = consumer.poll(timeout=20)
+            if msg is None: break  # no messages to fetch
+            if msg.error(): 
+                print(str(msg.error()))
+                break
+            jmsg = json.loads(msg.value())  # msg will be in json format
+        """
+        settings = { 
+          'bootstrap.servers': 'kafka.lsst.ac.uk:9092',
+          'group.id': group_id,
+          'default.topic.config': {'auto.offset.reset': 'smallest'}
+        }
+        c = Consumer(settings)
+        c.subscribe([topic_in])
+        return c
+
+    def annotate_init(self, username, password, topic_out):
+        """ Tell the Lasair client that you will be producing annotations
+        args:
+            username: as given to you by Lasair staff
+            password: as given to you by Lasair staff
+            topic_out: as given to you by Lasair staff
+        Will fail if for some reason the confluent_kafka library cannot be imported.
+        """
+        conf = { 
+            'bootstrap.servers': 'kafka-pub:29092',
+            'security.protocol': 'SASL_PLAINTEXT',
+            'sasl.mechanisms': 'SCRAM-SHA-256',
+            'sasl.username': username,
+            'sasl.password': password
+        }
+        print(conf)
+        self.topic_out = topic_out
+        self.kafka_producer = Producer(conf)
+        print(self.kafka_producer)
+        if self.kafka_producer: return True
+        else:                   return False
+
+    def annotate_send(self, objectId, classification, \
+            version=None, explanation=None, classdict=None, url=None):
+        """ Send an annotation to Lasair
+        args:
+            objectId      : the object that this annotation should be attached to
+            classification: short string for the classification
+            version       : the version of the annotation engine
+            explanation   : natural language explanation
+            classdict     : dictionary with further information
+        Will fail if annotate_init has not been called
+        """
+
+        if self.kafka_producer == None:
+            raise LasairError('Must call annotate_init first')
+
+        msg = {
+            'objectId'      : objectId, 
+            'topic'         : self.topic_out,
+            'classification': classification,
+        }
+
+        if version    : msg['version']     = version
+        if explanation: msg['explanation'] = explanation
+        if classdict  : msg['jsondict']    = classdict
+        if url        : msg['url']         = url
+
+        self.kafka_producer.produce(self.topic_out, json.dumps(msg))
+
+    def annotate_flush(self):
+        """ Finish an annotation session and close the producer
+            If not called, your annotaityons will not go through!
+        """
+        if self.kafka_producer != None:
+            self.kafka_producer.flush()
+

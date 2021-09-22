@@ -105,3 +105,42 @@ CLASSES
                limit: (int, default 1000): Maximum number of stream names to return.
            return:
                List of stream names
+
+       stream_consumer(self, group_id, topic_in):
+           Consume a Kafka stream from Lasair
+           args:
+               group_id: a string. If used before, the server will start from last message
+               topic_in: The topic to be consumed. Example 'lasair_2SN-likecandidates'
+           Will fail if for some reason the confluent_kafka library cannot be imported.
+           Connects to Lasair public kafka to get the chosen topic.
+           Once you have the returned consumer object, run it with poll() like this:
+           loop:
+               msg = consumer.poll(timeout=20)
+               if msg is None: break  # no messages to fetch
+               if msg.error(): 
+                   print(str(msg.error()))
+                   break
+               jmsg = json.loads(msg.value())  # msg will be in json format
+
+        annotate_init(self, username, password, topic_out):
+            Tell the Lasair client that you will be producing annotations
+            args:
+                username: as given to you by Lasair staff
+                password: as given to you by Lasair staff
+                topic_out: as given to you by Lasair staff
+            Will fail if for some reason the confluent_kafka library cannot be imported.
+
+        def annotate_send(self, objectId, classification, \
+                version=None, explanation=None, classdict=None, url=None):
+            Send an annotation to Lasair
+            args:
+                objectId      : the object that this annotation should be attached to
+                classification: short string for the classification
+                version       : the version of the annotation engine
+                explanation   : natural language explanation
+                classdict     : dictionary with further information
+            Will fail if annotate_init has not been called
+
+        annotate_flush(self):
+            Finish an annotation session and close the producer
+            If not called, your annotaityons will not go through!
