@@ -29,7 +29,6 @@ class lasair_client():
         self.headers = { 'Authorization': 'Token %s' % token }
         self.server = 'https://lasair-iris.roe.ac.uk/api'
         self.cache = cache
-        self.kafka_producer = None
         if cache and not os.path.isdir(cache):
             message = 'Cache directory "%s" does not exist' % cache
             raise LasairError(message)
@@ -199,7 +198,9 @@ class lasair_client():
         result = self.fetch('sherlock/position', input)
         return result
 
-    def stream_consumer(self, group_id, topic_in):
+class lasair_consumer():
+    """ Creates a Kafka consumer for Lasair streams """
+    def __init__(self, group_id, topic_in):
         """ Consume a Kafka stream from Lasair
         args:
             group_id: a string. If used before, the server will start from last message
@@ -220,11 +221,17 @@ class lasair_client():
           'group.id': group_id,
           'default.topic.config': {'auto.offset.reset': 'smallest'}
         }
-        c = Consumer(settings)
-        c.subscribe([topic_in])
-        return c
+        self.consumer = Consumer(settings)
+        self.consumer.subscribe([topic_in])
 
-    def annotate_init(self, username, password, topic_out):
+    def poll(self, timeout = 10):
+        """ Polls for a message on the consumer with timeout is seconds
+        """
+        return self.consumer.poll(timeout)
+
+class lasair_producer():
+    """ Creates a Kafka producer for Lasair annotations """
+    def __init__(self, username, password, topic_out):
         """ Tell the Lasair client that you will be producing annotations
         args:
             username: as given to you by Lasair staff
@@ -241,12 +248,13 @@ class lasair_client():
         }
         print(conf)
         self.topic_out = topic_out
-        self.kafka_producer = Producer(conf)
-        print(self.kafka_producer)
-        if self.kafka_producer: return True
-        else:                   return False
+        try:
+            self.producer = Producer(conf)
+        except:
+            self.producer = None
+            raise LasairError('Failed to make kafka producer')
 
-    def annotate_send(self, objectId, classification, \
+    def produce(self, objectId, classification, \
             version=None, explanation=None, classdict=None, url=None):
         """ Send an annotation to Lasair
         args:
@@ -255,11 +263,10 @@ class lasair_client():
             version       : the version of the annotation engine
             explanation   : natural language explanation
             classdict     : dictionary with further information
-        Will fail if annotate_init has not been called
         """
 
-        if self.kafka_producer == None:
-            raise LasairError('Must call annotate_init first')
+        if self.producer == None:
+            raise LasairError('No valid producer')
 
         msg = {
             'objectId'      : objectId, 
@@ -272,12 +279,12 @@ class lasair_client():
         if classdict  : msg['jsondict']    = classdict
         if url        : msg['url']         = url
 
-        self.kafka_producer.produce(self.topic_out, json.dumps(msg))
+        self.producer.produce(self.topic_out, json.dumps(msg))
 
-    def annotate_flush(self):
+    def flush(self):
         """ Finish an annotation session and close the producer
-            If not called, your annotaityons will not go through!
+            If not called, your annotations will not go through!
         """
-        if self.kafka_producer != None:
-            self.kafka_producer.flush()
+        if self.producer != None:
+            self.producer.flush()
 
