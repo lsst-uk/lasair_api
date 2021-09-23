@@ -276,7 +276,7 @@ class lasair_producer():
 
         if version    : msg['version']     = version
         if explanation: msg['explanation'] = explanation
-        if classdict  : msg['jsondict']    = classdict
+        if classdict  : msg['classdict']   = classdict
         if url        : msg['url']         = url
 
         self.producer.produce(self.topic_out, json.dumps(msg))
