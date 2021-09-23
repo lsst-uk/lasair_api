@@ -267,6 +267,8 @@ class lasair_producer():
 
         if self.producer == None:
             raise LasairError('No valid producer')
+        if not classification or len(classification) == 0:
+            raise LasairError('Classification must be a short nontrivial string')
 
         msg = {
             'objectId'      : objectId, 
