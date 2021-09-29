@@ -105,3 +105,53 @@ CLASSES
                limit: (int, default 1000): Maximum number of stream names to return.
            return:
                List of stream names
+
+    class lasair_consumer(builtins.object)
+       Consume a Kafka stream from Lasair
+       
+       __init__(self, host, group_id, topic_in):
+            Consume a Kafka stream from Lasair
+            args:
+                host:     Host name:port for consuming Kafka
+                group_id: a string. If used before, the server will start from last message
+                topic_in: The topic to be consumed. Example 'lasair_2SN-likecandidates'
+            Imports confluent_kafka.
+            Connects to Lasair public kafka to get the chosen topic.
+            Once you have the returned consumer object, run it with poll() like this:
+            loop:
+                msg = consumer.poll(timeout=20)
+                if msg is None: break  # no messages to fetch
+                if msg.error(): 
+                    print(str(msg.error()))
+                    break
+                jmsg = json.loads(msg.value())  # msg will be in json format
+
+        poll(self, timeout = 10):
+            Polls for a message on the consumer with timeout is seconds
+
+    class lasair_producer():
+        Creates a Kafka producer for Lasair annotations
+
+        def __init__(self, host, username, password, topic_out):
+            Tell the Lasair client that you will be producing annotations
+            args:
+                host:     Host name:port for producing Kafka
+                username: as given to you by Lasair staff
+                password: as given to you by Lasair staff
+                topic_out: as given to you by Lasair staff
+            Imports confluent_kafka.
+
+        def produce(self, objectId, classification, \
+            version=None, explanation=None, classdict=None, url=None):
+            Send an annotation to Lasair
+            args:
+                objectId      : the object that this annotation should be attached to
+                classification: short string for the classification
+                version       : the version of the annotation engine
+                explanation   : natural language explanation
+                classdict     : dictionary with further information
+    
+        def flush(self):
+            Finish an annotation session and close the producer
+            If not called, your annotations will not go through!
+

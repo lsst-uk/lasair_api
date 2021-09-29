@@ -18,7 +18,6 @@ import os, sys
 import requests
 import json
 import hashlib
-from confluent_kafka import Consumer, Producer
 
 class LasairError(Exception):
     def __init__(self, message):
@@ -29,7 +28,6 @@ class lasair_client():
         self.headers = { 'Authorization': 'Token %s' % token }
         self.server = 'https://lasair-iris.roe.ac.uk/api'
         self.cache = cache
-        self.kafka_producer = None
         if cache and not os.path.isdir(cache):
             message = 'Cache directory "%s" does not exist' % cache
             raise LasairError(message)
@@ -198,3 +196,103 @@ class lasair_client():
         input = {'ra':ra, 'dec':dec, 'lite':lite}
         result = self.fetch('sherlock/position', input)
         return result
+
+class lasair_consumer():
+    """ Creates a Kafka consumer for Lasair streams """
+    def __init__(self, host, group_id, topic_in):
+        """ Consume a Kafka stream from Lasair
+        args:
+            host:     Host name:port for consuming Kafka
+            group_id: a string. If used before, the server will start from last message
+            topic_in: The topic to be consumed. Example 'lasair_2SN-likecandidates'
+        Will fail if for some reason the confluent_kafka library cannot be imported.
+        Connects to Lasair public kafka to get the chosen topic.
+        Once you have the returned consumer object, run it with poll() like this:
+        loop:
+            msg = consumer.poll(timeout=20)
+            if msg is None: break  # no messages to fetch
+            if msg.error(): 
+                print(str(msg.error()))
+                break
+            jmsg = json.loads(msg.value())  # msg will be in json format
+        """
+        settings = { 
+          'bootstrap.servers': host,
+          'group.id': group_id,
+          'default.topic.config': {'auto.offset.reset': 'smallest'}
+        }
+        try:
+            from confluent_kafka import Consumer
+            self.consumer = Consumer(settings)
+            self.consumer.subscribe([topic_in])
+        except:
+            self.consumer = None
+            raise LasairError('Failed to import confluent_kafka. Try "pip install confluent_kafka"')
+
+    def poll(self, timeout = 10):
+        """ Polls for a message on the consumer with timeout is seconds
+        """
+        return self.consumer.poll(timeout)
+
+class lasair_producer():
+    """ Creates a Kafka producer for Lasair annotations """
+    def __init__(self, host, username, password, topic_out):
+        """ Tell the Lasair client that you will be producing annotations
+        args:
+            host:     Host name:port for producing Kafka
+            username: as given to you by Lasair staff
+            password: as given to you by Lasair staff
+            topic_out: as given to you by Lasair staff
+        Will fail if for some reason the confluent_kafka library cannot be imported.
+        """
+        conf = { 
+            'bootstrap.servers': host,
+            'security.protocol': 'SASL_PLAINTEXT',
+            'sasl.mechanisms': 'SCRAM-SHA-256',
+            'sasl.username': username,
+            'sasl.password': password
+        }
+        self.topic_out = topic_out
+        try:
+            from confluent_kafka import Producer
+            self.producer = Producer(conf)
+        except Exception as e:
+            self.producer = None
+            raise LasairError('Failed to make kafka producer.' + str(e))
+
+    def produce(self, objectId, classification, \
+            version=None, explanation=None, classdict=None, url=None):
+        """ Send an annotation to Lasair
+        args:
+            objectId      : the object that this annotation should be attached to
+            classification: short string for the classification
+            version       : the version of the annotation engine
+            explanation   : natural language explanation
+            classdict     : dictionary with further information
+        """
+
+        if self.producer == None:
+            raise LasairError('No valid producer')
+        if not classification or len(classification) == 0:
+            raise LasairError('Classification must be a short nontrivial string')
+
+        msg = {
+            'objectId'      : objectId, 
+            'topic'         : self.topic_out,
+            'classification': classification,
+        }
+
+        if version    : msg['version']     = version
+        if explanation: msg['explanation'] = explanation
+        if classdict  : msg['classdict']   = classdict
+        if url        : msg['url']         = url
+
+        self.producer.produce(self.topic_out, json.dumps(msg))
+
+    def flush(self):
+        """ Finish an annotation session and close the producer
+            If not called, your annotations will not go through!
+        """
+        if self.producer != None:
+            self.producer.flush()
+
