@@ -199,7 +199,7 @@ class lasair_client():
 
 class lasair_consumer():
     """ Creates a Kafka consumer for Lasair streams """
-    def __init__(self, group_id, topic_in):
+    def __init__(self, host, group_id, topic_in):
         """ Consume a Kafka stream from Lasair
         args:
             group_id: a string. If used before, the server will start from last message
@@ -216,7 +216,7 @@ class lasair_consumer():
             jmsg = json.loads(msg.value())  # msg will be in json format
         """
         settings = { 
-          'bootstrap.servers': 'kafka.lsst.ac.uk:9092',
+          'bootstrap.servers': host,
           'group.id': group_id,
           'default.topic.config': {'auto.offset.reset': 'smallest'}
         }
@@ -235,7 +235,7 @@ class lasair_consumer():
 
 class lasair_producer():
     """ Creates a Kafka producer for Lasair annotations """
-    def __init__(self, username, password, topic_out):
+    def __init__(self, host, username, password, topic_out):
         """ Tell the Lasair client that you will be producing annotations
         args:
             username: as given to you by Lasair staff
@@ -244,7 +244,7 @@ class lasair_producer():
         Will fail if for some reason the confluent_kafka library cannot be imported.
         """
         conf = { 
-            'bootstrap.servers': 'kafka-pub:29092',
+            'bootstrap.servers': host,
             'security.protocol': 'SASL_PLAINTEXT',
             'sasl.mechanisms': 'SCRAM-SHA-256',
             'sasl.username': username,
