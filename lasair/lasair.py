@@ -18,7 +18,6 @@ import os, sys
 import requests
 import json
 import hashlib
-from confluent_kafka import Consumer, Producer
 
 class LasairError(Exception):
     def __init__(self, message):
@@ -221,8 +220,13 @@ class lasair_consumer():
           'group.id': group_id,
           'default.topic.config': {'auto.offset.reset': 'smallest'}
         }
-        self.consumer = Consumer(settings)
-        self.consumer.subscribe([topic_in])
+        try:
+            from confluent_kafka import Consumer
+            self.consumer = Consumer(settings)
+            self.consumer.subscribe([topic_in])
+        except:
+            self.consumer = None
+            raise LasairError('Failed to import confluent_kafka. Try "pip install confluent_kafka"')
 
     def poll(self, timeout = 10):
         """ Polls for a message on the consumer with timeout is seconds
@@ -246,13 +250,13 @@ class lasair_producer():
             'sasl.username': username,
             'sasl.password': password
         }
-        print(conf)
         self.topic_out = topic_out
         try:
+            from confluent_kafka import Producer
             self.producer = Producer(conf)
-        except:
+        except Exception as e:
             self.producer = None
-            raise LasairError('Failed to make kafka producer')
+            raise LasairError('Failed to make kafka producer.' + str(e))
 
     def produce(self, objectId, classification, \
             version=None, explanation=None, classdict=None, url=None):
