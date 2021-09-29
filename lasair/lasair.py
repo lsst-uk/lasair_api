@@ -202,6 +202,7 @@ class lasair_consumer():
     def __init__(self, host, group_id, topic_in):
         """ Consume a Kafka stream from Lasair
         args:
+            host:     Host name:port for consuming Kafka
             group_id: a string. If used before, the server will start from last message
             topic_in: The topic to be consumed. Example 'lasair_2SN-likecandidates'
         Will fail if for some reason the confluent_kafka library cannot be imported.
@@ -238,6 +239,7 @@ class lasair_producer():
     def __init__(self, host, username, password, topic_out):
         """ Tell the Lasair client that you will be producing annotations
         args:
+            host:     Host name:port for producing Kafka
             username: as given to you by Lasair staff
             password: as given to you by Lasair staff
             topic_out: as given to you by Lasair staff

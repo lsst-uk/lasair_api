@@ -109,9 +109,10 @@ CLASSES
     class lasair_consumer(builtins.object)
        Consume a Kafka stream from Lasair
        
-       __init__(self, group_id, topic_in):
+       __init__(self, host, group_id, topic_in):
             Consume a Kafka stream from Lasair
             args:
+                host:     Host name:port for consuming Kafka
                 group_id: a string. If used before, the server will start from last message
                 topic_in: The topic to be consumed. Example 'lasair_2SN-likecandidates'
             Imports confluent_kafka.
@@ -131,9 +132,10 @@ CLASSES
     class lasair_producer():
         Creates a Kafka producer for Lasair annotations
 
-        def __init__(self, username, password, topic_out):
+        def __init__(self, host, username, password, topic_out):
             Tell the Lasair client that you will be producing annotations
             args:
+                host:     Host name:port for producing Kafka
                 username: as given to you by Lasair staff
                 password: as given to you by Lasair staff
                 topic_out: as given to you by Lasair staff
