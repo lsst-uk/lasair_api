@@ -24,16 +24,16 @@ class LasairError(Exception):
         self.message = message
 
 class lasair_client():
-    def __init__(self, token, cache=None):
+    def __init__(self, token, cache=None, endpoint='https://lasair.roe.ac.uk/api'):
         self.headers = { 'Authorization': 'Token %s' % token }
-        self.server = 'https://lasair-iris.roe.ac.uk/api'
+        self.endpoint = endpoint
         self.cache = cache
         if cache and not os.path.isdir(cache):
             message = 'Cache directory "%s" does not exist' % cache
             raise LasairError(message)
 
     def fetch_from_server(self, method, input):
-        url = '%s/%s/' % (self.server, method)
+        url = '%s/%s/' % (self.endpoint, method)
         r = requests.post(url, data=input, headers=self.headers)
         if r.status_code == 200:
             try:
@@ -195,6 +195,35 @@ class lasair_client():
         """
         input = {'ra':ra, 'dec':dec, 'lite':lite}
         result = self.fetch('sherlock/position', input)
+        return result
+
+    def annotate(self, topic, objectId, classification, \
+            version='0.1', explanation='', classdict={}, url=''):
+        """ Send an annotation to Lasair
+        args:
+            topic         : the topic for which this user is authenticated
+            objectId      : the object that this annotation should be attached to
+            classification: short string for the classification
+            version       : the version of the annotation engine
+            explanation   : natural language explanation
+            classdict     : dictionary with further information
+            url           : url with further information about this classification
+        """
+
+        if not classification or len(classification) == 0:
+            raise LasairError('Classification must be a short nontrivial string')
+
+        msg = {
+            'objectId'      : objectId, 
+            'topic'         : topic,
+            'classification': classification,
+            'version'       : version,
+            'explanation'   : explanation,
+            'classdict'     : json.dumps(classdict),
+            'url'           : url,
+        }
+
+        result = self.fetch_from_server('annotate', msg)
         return result
 
 class lasair_consumer():

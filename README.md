@@ -21,12 +21,13 @@ DESCRIPTION
 
 CLASSES
     class lasair_client(builtins.object)
-       lasair_client(token, cache=None)
-       
        Methods defined here:
        
-       __init__(self, token, cache=None)
+       __init__(self, token, cache=None, endpoint='http://192.41.108.37:8080/api')
            Initialize self.  See help(type(self)) for accurate signature.
+           Args:
+               cache: name of a directory where results can be cached 
+               endpoint: endpoint of the Lasair API service
        
        cone(self, ra, dec, radius=5, requestType='all')
            Run a cone search on the Lasair database.
@@ -105,6 +106,21 @@ CLASSES
                limit: (int, default 1000): Maximum number of stream names to return.
            return:
                List of stream names
+
+        annotate(self, topic, objectId, classification, \
+            version='0.1', explanation='', classdict={}, url='')
+            Send an annotation to Lasair
+            Note: Only the registered owner of this topic can send annotations to it
+            args:
+                topic         : the topic for which this user is authenticated
+                objectId      : the object that this annotation should be attached to
+                classification: short string for the classification
+                version       : the version of the annotation engine
+                explanation   : natural language explanation
+                classdict     : dictionary with further information
+                url           : url with further information about this classification
+            return:
+                Status message
 
     class lasair_consumer(builtins.object)
        Consume a Kafka stream from Lasair
