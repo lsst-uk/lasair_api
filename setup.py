@@ -14,7 +14,7 @@ setup(
     description='A client for the Lasair database',
     long_description=readme(),
     long_description_content_type="text/markdown",
-    version="0.0.2",
+    version="0.0.3",
     author='RoyWilliams',
     author_email='roy@roe.ac.uk',
     license='MIT',

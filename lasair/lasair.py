@@ -24,7 +24,7 @@ class LasairError(Exception):
         self.message = message
 
 class lasair_client():
-    def __init__(self, token, cache=None, endpoint='https://lasair.roe.ac.uk/api'):
+    def __init__(self, token, cache=None, endpoint='https://lasair-iris.roe.ac.uk/api'):
         self.headers = { 'Authorization': 'Token %s' % token }
         self.endpoint = endpoint
         self.cache = cache
