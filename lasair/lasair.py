@@ -34,7 +34,11 @@ class lasair_client():
 
     def fetch_from_server(self, method, input):
         url = '%s/%s/' % (self.endpoint, method)
-        r = requests.post(url, data=input, headers=self.headers)
+        try:
+            r = requests.post(url, data=input, headers=self.headers, timeout=60.0)
+        except requests.exceptions.ReadTimeout:
+            raise LasairError('Request timed out')
+
         if r.status_code == 200:
             try:
                 result = r.json()
