@@ -14,18 +14,18 @@ Args:
     the name of a writable directory. If the same calls are made repeatedly, 
     this will be much more efficient.
 """
-import os, sys
-import requests
-import json
+import os
 import hashlib
+
 
 class LasairError(Exception):
     def __init__(self, message):
         self.message = message
 
+
 class lasair_client():
     def __init__(self, token, cache=None, endpoint='https://lasair-iris.roe.ac.uk/api'):
-        self.headers = { 'Authorization': 'Token %s' % token }
+        self.headers = {'Authorization': 'Token %s' % token}
         self.endpoint = endpoint
         self.cache = cache
         if cache and not os.path.isdir(cache):
@@ -33,6 +33,7 @@ class lasair_client():
             raise LasairError(message)
 
     def fetch_from_server(self, method, input):
+        import requests
         url = '%s/%s/' % (self.endpoint, method)
         try:
             r = requests.post(url, data=input, headers=self.headers, timeout=60.0)
@@ -62,13 +63,15 @@ class lasair_client():
         return result
 
     def hash_it(self, input):
+        import json
         s = json.dumps(input)
         h = hashlib.md5(s.encode())
         return h.hexdigest()
 
     def fetch(self, method, input):
+        import json
         if self.cache:
-            cached_file = '%s/%s.json' % (self.cache, self.hash_it(method +'/'+ str(input)))
+            cached_file = '%s/%s.json' % (self.cache, self.hash_it(method + '/' + str(input)))
             try:
                 result_txt = open(cached_file).read()
                 result = json.loads(result_txt)
@@ -82,6 +85,7 @@ class lasair_client():
             return result
 
         if self.cache:
+            import json
             f = open(cached_file, 'w')
             result_txt = json.dumps(result, indent=2)
             f.write(result_txt)
@@ -103,7 +107,7 @@ class lasair_client():
             objectId: The ID of the nearest object
             separation: the separation in arcseconds
         """
-        input = {'ra':ra, 'dec':dec, 'radius':radius, 'requestType':requestType}
+        input = {'ra': ra, 'dec': dec, 'radius': radius, 'requestType': requestType}
         result = self.fetch('cone', input)
         return result
 
@@ -118,9 +122,9 @@ class lasair_client():
         return:
             a list of dictionaries, each representing a row
         """
-        
-        input = {'selected':selected, 'tables':tables, 'conditions':conditions, 
-            'limit':limit, 'offset':offset}
+
+        input = {'selected': selected, 'tables': tables, 'conditions': conditions,
+                 'limit': limit, 'offset': offset}
         result = self.fetch('query', input)
         return result
 
@@ -132,7 +136,7 @@ class lasair_client():
         return:
             List of stream names
         """
-        input = {'regex':regex, 'limit':limit}
+        input = {'regex': regex, 'limit': limit}
         result = self.fetch('streams', input)
         return result
 
@@ -143,8 +147,8 @@ class lasair_client():
         return:
             list of dictionaries, each representing a row
         """
-        input = {'limit':limit}
-        result = self.fetch('streams/%s/'%topic, input)
+        input = {'limit': limit}
+        result = self.fetch('streams/%s/' % topic, input)
         return result
 
     def objects(self, objectIds):
@@ -155,7 +159,7 @@ class lasair_client():
             list of dictionaries, each being all the information presented
             on the Lasair object page.
         """
-        input = {'objectIds':','.join(objectIds)}
+        input = {'objectIds': ','.join(objectIds)}
         result = self.fetch('objects', input)
         return result
 
@@ -168,7 +172,7 @@ class lasair_client():
             is a list of dictionaries, each having attributes
             candid, fid, magpsf, sigmapsf, isdiffpos, mjd
         """
-        input = {'objectIds':','.join(objectIds)}
+        input = {'objectIds': ','.join(objectIds)}
         result = self.fetch('lightcurves', input)
         return result
 
@@ -182,7 +186,7 @@ class lasair_client():
         return:
             list of dictionaries, one for each objectId.
         """
-        input = {'objectIds':','.join(objectIds), 'lite':lite}
+        input = {'objectIds': ','.join(objectIds), 'lite': lite}
         result = self.fetch('sherlock/objects', input)
         return result
 
@@ -197,12 +201,12 @@ class lasair_client():
         return:
             dictionary of contect information
         """
-        input = {'ra':ra, 'dec':dec, 'lite':lite}
+        input = {'ra': ra, 'dec': dec, 'lite': lite}
         result = self.fetch('sherlock/position', input)
         return result
 
-    def annotate(self, topic, objectId, classification, \
-            version='0.1', explanation='', classdict={}, url=''):
+    def annotate(self, topic, objectId, classification,
+                 version='0.1', explanation='', classdict={}, url=''):
         """ Send an annotation to Lasair
         args:
             topic         : the topic for which this user is authenticated
@@ -213,25 +217,28 @@ class lasair_client():
             classdict     : dictionary with further information
             url           : url with further information about this classification
         """
+        import json
 
         if not classification or len(classification) == 0:
             raise LasairError('Classification must be a short nontrivial string')
 
         msg = {
-            'objectId'      : objectId, 
-            'topic'         : topic,
+            'objectId': objectId,
+            'topic': topic,
             'classification': classification,
-            'version'       : version,
-            'explanation'   : explanation,
-            'classdict'     : json.dumps(classdict),
-            'url'           : url,
+            'version': version,
+            'explanation': explanation,
+            'classdict': json.dumps(classdict),
+            'url': url,
         }
 
         result = self.fetch_from_server('annotate', msg)
         return result
 
+
 class lasair_consumer():
     """ Creates a Kafka consumer for Lasair streams """
+
     def __init__(self, host, group_id, topic_in):
         """ Consume a Kafka stream from Lasair
         args:
@@ -249,10 +256,10 @@ class lasair_consumer():
                 break
             jmsg = json.loads(msg.value())  # msg will be in json format
         """
-        settings = { 
-          'bootstrap.servers': host,
-          'group.id': group_id,
-          'default.topic.config': {'auto.offset.reset': 'smallest'}
+        settings = {
+            'bootstrap.servers': host,
+            'group.id': group_id,
+            'default.topic.config': {'auto.offset.reset': 'smallest'}
         }
         try:
             from confluent_kafka import Consumer
@@ -262,13 +269,15 @@ class lasair_consumer():
             self.consumer = None
             raise LasairError('Failed to import confluent_kafka. Try "pip install confluent_kafka"')
 
-    def poll(self, timeout = 10):
+    def poll(self, timeout=10):
         """ Polls for a message on the consumer with timeout is seconds
         """
         return self.consumer.poll(timeout)
 
+
 class lasair_producer():
     """ Creates a Kafka producer for Lasair annotations """
+
     def __init__(self, host, username, password, topic_out):
         """ Tell the Lasair client that you will be producing annotations
         args:
@@ -278,7 +287,7 @@ class lasair_producer():
             topic_out: as given to you by Lasair staff
         Will fail if for some reason the confluent_kafka library cannot be imported.
         """
-        conf = { 
+        conf = {
             'bootstrap.servers': host,
             'security.protocol': 'SASL_PLAINTEXT',
             'sasl.mechanisms': 'SCRAM-SHA-256',
@@ -293,8 +302,8 @@ class lasair_producer():
             self.producer = None
             raise LasairError('Failed to make kafka producer.' + str(e))
 
-    def produce(self, objectId, classification, \
-            version=None, explanation=None, classdict=None, url=None):
+    def produce(self, objectId, classification,
+                version=None, explanation=None, classdict=None, url=None):
         """ Send an annotation to Lasair
         args:
             objectId      : the object that this annotation should be attached to
@@ -303,22 +312,26 @@ class lasair_producer():
             explanation   : natural language explanation
             classdict     : dictionary with further information
         """
-
+        import json
         if self.producer == None:
             raise LasairError('No valid producer')
         if not classification or len(classification) == 0:
             raise LasairError('Classification must be a short nontrivial string')
 
         msg = {
-            'objectId'      : objectId, 
-            'topic'         : self.topic_out,
+            'objectId': objectId,
+            'topic': self.topic_out,
             'classification': classification,
         }
 
-        if version    : msg['version']     = version
-        if explanation: msg['explanation'] = explanation
-        if classdict  : msg['classdict']   = classdict
-        if url        : msg['url']         = url
+        if version:
+            msg['version'] = version
+        if explanation:
+            msg['explanation'] = explanation
+        if classdict:
+            msg['classdict'] = classdict
+        if url:
+            msg['url'] = url
 
         self.producer.produce(self.topic_out, json.dumps(msg))
 
@@ -328,4 +341,3 @@ class lasair_producer():
         """
         if self.producer != None:
             self.producer.flush()
-
