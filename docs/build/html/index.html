@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Features &mdash; lasair v0.0.3 documentation</title>
+  <title>Lasair. A UK Transient Science Platform. &mdash; lasair v0.0.3 documentation</title>
   
 
   
@@ -45,9 +45,10 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
+    <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Installation" href="install.html" />
+    <link rel="next" title="Lasair Search" href="lasair-search.html" />
     <script type="text/x-mathjax-config">
         MathJax.Hub.Config({
           messageStyle: "none",
@@ -104,7 +105,7 @@
 
 
           
-            <a href="#" class="icon icon-home"> lasair</a> <p>Documentation for the Lasair Transient Alert Broker</p> <a href="#"><img src="_static/lasair_icon_transparent.png" class="logo" alt="Logo"/> </a>
+            <a href="#" class="icon icon-home"> lasair</a> <p>Documentation for the Lasair Transient Science Platform</p> <a href="#"><img src="_static/lasair_icon_transparent.png" class="logo" alt="Logo"/> </a>
           
 
 
@@ -142,20 +143,29 @@
               
             
             
-              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+              <p class="caption"><span class="caption-text">Features</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="initialisation.html">Initialisation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="todolist.html">Todo List</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lasair-search.html">Lasair Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="metadata-tags.html">Transient Metadata Tags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="watchlists.html">Watchlists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sky-regions.html">Sky Regions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Digging Deeper</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="alert-streams.html">Alert Streams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rest-api.html">Lasair API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python-notebooks.html">Python Notebooks</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faqs.html">FAQs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact Us</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Extras</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="lasair-presentations.html">Lasair Talks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changes_link.html">Release Notes</a></li>
-</ul>
-<p class="caption"><span class="caption-text">API reference</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="autosummary.html">Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="autosummary.html#classes">Classes</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="genindex.html">A-Z Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="todolist.html">Todo List</a></li>
 </ul>
 
             
@@ -202,7 +212,7 @@
     
       <li><a href="#" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Features</li>
+      <li>Lasair. A UK Transient Science Platform.</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -228,77 +238,42 @@
 <a class="reference external" href="https://pypi.org/project/lasair/"><img alt="https://img.shields.io/pypi/dm/lasair" src="https://img.shields.io/pypi/dm/lasair" /></a></p>
 <p><a class="reference external" href="https://lasair.readthedocs.io/en/master/"><img alt="https://readthedocs.org/projects/lasair/badge/?version=master" src="https://readthedocs.org/projects/lasair/badge/?version=master" /></a>
 <a class="reference external" href="https://github.com/lsst-uk/lasair_api/issues?q=is%3Aissue+is%3Aopen+label%3A%22type%3A+bug%22+"><img alt="https://img.shields.io/github/issues/lsst-uk/lasair_api/type:%20bug?label=bug%20issues" src="https://img.shields.io/github/issues/lsst-uk/lasair_api/type:%20bug?label=bug%20issues" /></a></p>
-<p><em>Documentation for the Lasair Transient Alert Broker</em>.</p>
-<p>Documentation for lasair is hosted by <a class="reference external" href="https://lasair.readthedocs.io/en/master/">Read the Docs</a> (<a class="reference external" href="https://lasair.readthedocs.io/en/develop/">development version</a> and <a class="reference external" href="https://lasair.readthedocs.io/en/master/">master version</a>). The code lives on <a class="reference external" href="https://github.com/lsst-uk/lasair_api">github</a>. Please report any issues you find <a class="reference external" href="https://github.com/lsst-uk/lasair_api/issues">here</a>.</p>
-<div class="section" id="features">
-<h1>Features<a class="headerlink" href="#features" title="Permalink to this headline">  ∞</a></h1>
-<ul class="simple">
-<li><p></p></li>
-</ul>
-<div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Table of Contents</span></p>
+<div class="section" id="lasair.-a-uk-transient-science-platform.">
+<h1>Lasair. A UK Transient Science Platform.<a class="headerlink" href="#lasair.-a-uk-transient-science-platform." title="Permalink to this headline">  ∞</a></h1>
+<p><em>Lasair</em> is being developed by The University of Edinburgh and Queen’s University Belfast with the ultimate goal of serving transient alerts from the future <a class="reference external" href="https://www.lsst.org">Rubin Legacy Survey of Space and Time (LSST)</a> to the astronomical community. <em>Lasair</em> (pronounced ‘<em>L-AH-s-uh-r</em>’) means flame or flash in Scots and Irish gaelic. To prototype functionality needed to process transient event alerts from LSST, Lasair is currently processing and serving data from the public stream of the <a class="reference external" href="http://www.ztf.caltech.edu/">Zwicky Transient Facility (ZTF)</a>, which is releasing a transient alert stream in a format similar to that envisaged for LSST. We thank ZTF for access to this valuable public data stream.</p>
+<p>If you make use of Lasair in any of your work, please remember to cite our paper: </p>
+<blockquote>
+<div><p><em><a class="reference external" href="https://doi.org/10.3847/2515-5172/ab020f">Lasair: The Transient Alert Broker for LSST:UK</a></em>, K. W. Smith, R. D. Williams et. al., Research Notes AAS, <strong>3</strong>,26 (2019).</p>
+</div></blockquote>
+<p>Documentation for Lasair is hosted on <a class="reference external" href="https://lasair.readthedocs.io/en/main/">Read the Docs</a>. The code lives on <a class="reference external" href="https://github.com/orgs/lsst-uk/repositories?q=lasair&amp;type=all&amp;language=&amp;sort=">github</a>. </p>
+<p>If you are new to Lasair, start here by learning about our core features. </p>
+<div class="toctree-wrapper compound" id="features">
+<p class="caption"><span class="caption-text">Features</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="install.html#development">Development</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="initialisation.html">Initialisation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="todolist.html">Todo List</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes_link.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lasair-search.html">Lasair Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="metadata-tags.html">Transient Metadata Tags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="watchlists.html">Watchlists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sky-regions.html">Sky Regions</a></li>
 </ul>
 </div>
+<p>Once you know your way around Lasair, start digging deeper to become a power-user and see what great science you can get done.</p>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Digging Deeper</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="alert-streams.html">Alert Streams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rest-api.html">Lasair API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python-notebooks.html">Python Notebooks</a></li>
+</ul>
 </div>
-<div class="section" id="api-reference">
-<h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">  ∞</a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Help and Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faqs.html">FAQs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact Us</a></li>
+</ul>
+</div>
 <div class="toctree-wrapper compound">
 </div>
-<div class="toctree-wrapper compound">
-</div>
-<p><strong>Modules</strong></p>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/lasair.lasair.html#module-lasair.lasair" title="lasair.lasair"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lasair.lasair</span></code></a></p></td>
-<td><p>Lasair API</p></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Classes</strong></p>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/lasair.lasair.LasairError.html#lasair.lasair.LasairError" title="lasair.lasair.LasairError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lasair.lasair.LasairError</span></code></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/lasair.lasair.lasair_client.html#lasair.lasair.lasair_client" title="lasair.lasair.lasair_client"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lasair.lasair.lasair_client</span></code></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/lasair.lasair.lasair_consumer.html#lasair.lasair.lasair_consumer" title="lasair.lasair.lasair_consumer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lasair.lasair.lasair_consumer</span></code></a></p></td>
-<td><p>Creates a Kafka consumer for Lasair streams</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/lasair.lasair.lasair_producer.html#lasair.lasair.lasair_producer" title="lasair.lasair.lasair_producer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">lasair.lasair.lasair_producer</span></code></a></p></td>
-<td><p>Creates a Kafka producer for Lasair annotations</p></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Functions</strong></p>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-</tbody>
-</table>
-</div>
-<div class="section" id="release-notes">
-<h1>Release Notes<a class="headerlink" href="#release-notes" title="Permalink to this headline">  ∞</a></h1>
 </div>
 
 
@@ -309,7 +284,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="install.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="lasair-search.html" class="btn btn-neutral float-right" title="Lasair Search" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
     </div>

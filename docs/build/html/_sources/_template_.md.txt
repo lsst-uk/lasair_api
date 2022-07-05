@@ -16,11 +16,6 @@ This is a template document giving an overview of the syntax that can be used th
 
 ## Embed reStructuredText
 
-```eval_rst
-.. todo::
-
-    - Make sure todo list is working. ✓
-```
 
 ## Code URL Resolver
 

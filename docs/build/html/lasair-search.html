@@ -1,0 +1,359 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Lasair Search &mdash; lasair v0.0.3 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/rtd_sphinx_search.min.css" type="text/css" />
+  <link rel="stylesheet" href="_static/whistles-theme/Contents/Resources/core.css" type="text/css" />
+  <link rel="stylesheet" href="_static/whistles-theme/Contents/Resources/style.css" type="text/css" />
+  <link rel="stylesheet" href="_static/whistles-theme/Contents/Resources/dryx.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/js/rtd_sphinx_search.min.js"></script>
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script >mermaid.initialize({startOnLoad:true});</script>
+        <script src="_static/whistles-theme/Contents/Resources/main.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Transient Metadata Tags" href="metadata-tags.html" />
+    <link rel="prev" title="Lasair. A UK Transient Science Platform." href="index.html" />
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          messageStyle: "none",
+          tex2jax: {preview: "none"}
+        });
+    </script>
+  
+  <!-- REMOTE SCRIPTS AND STYLES -->
+
+  <link rel="stylesheet" media="all" href="https://cdnjs.cloudflare.com/ajax/libs/bigfoot/2.1.4/bigfoot-number.min.css">
+  <link rel="stylesheet" media="all" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/monokai-sublime.min.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_HTML"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.4/mermaid.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowchart/1.11.3/flowchart.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bigfoot/2.1.4/bigfoot.min.js"></script>
+
+  
+
+
+
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: white" >
+          
+
+
+          
+              
+          
+
+
+<!--           
+            <a href="index.html" class="icon icon-home"> lasair
+          
+
+          
+            
+            <img src="_static/lasair_icon_transparent.png" class="logo" alt="Logo"/>
+          
+          </a> -->
+
+
+
+          
+            <a href="index.html" class="icon icon-home"> lasair</a> <p>Documentation for the Lasair Transient Science Platform</p> <a href="index.html"><img src="_static/lasair_icon_transparent.png" class="logo" alt="Logo"/> </a>
+          
+
+
+          
+          
+            
+            
+              <div class="version">
+                v0.0.3
+              </div>
+            
+          
+
+          
+              <a class="github-button" href="https://github.com/lsst-uk/lasair_api" data-size="large" data-show-count="true" aria-label="Star lsst-uk/lasair_api on GitHub">Star</a>
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Features</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Lasair Search</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-search-bar">The Search Bar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deep-search">Deep Search</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#how-to-query-transients">How to query transients</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="metadata-tags.html">Transient Metadata Tags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="watchlists.html">Watchlists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sky-regions.html">Sky Regions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Digging Deeper</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="alert-streams.html">Alert Streams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rest-api.html">Lasair API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python-notebooks.html">Python Notebooks</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faqs.html">FAQs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact Us</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Extras</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="lasair-presentations.html">Lasair Talks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes_link.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="todolist.html">Todo List</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">lasair</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Lasair Search</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/lasair-search.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="lasair-search">
+<h1>Lasair Search<a class="headerlink" href="#lasair-search" title="Permalink to this headline">  ∞</a></h1>
+<p><strong>Table of Contents</strong></p>
+<ul class="simple">
+<li><p><a class="reference external" href="#the-search-bar">The Search Bar</a></p></li>
+<li><p><a class="reference external" href="#deep-search">Deep Search</a><ul>
+<li><p><a class="reference external" href="#how-to-query-transients">How to query transients</a></p></li>
+</ul>
+</p></li>
+</ul>
+<div class="section" id="the-search-bar">
+<h2>The Search Bar<a class="headerlink" href="#the-search-bar" title="Permalink to this headline">  ∞</a></h2>
+<div class="admonition-todo admonition" id="id1">
+<p class="admonition-title">Todo</p>
+<ul class="simple">
+<li><p>Flesh out how to use the lasair search bar … text below is from old pages</p></li>
+</ul>
+</div>
+<p><a class="reference external" href="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/conesearch/fig1.png"><img alt="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/conesearch/fig1.png" src="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/conesearch/fig1.png" /></a></p>
+<p>At the top of every Lasair page is a form that can be filled in to do a cone search. just fill in the coordinates and hit return/enter. Several syntaxes are supported here, including these:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>141.15725 25.39508
+141.15725;25.39508
+141.15725| 25.39508
+141.15725, 25.39508, 5.0
+09:24:37.74 | +25:23:42.3
+09:24:37.74 | +25:23:42.3 10.0
+09 24 37.74 +25 23 42.3
+09 24 37.74 | +25 23 42.3 5
+09 24 37.74 ; +25 23 42.3 5
+</pre></div>
+</div>
+<p><a class="reference external" href="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/conesearch/fig2.png"><img alt="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/conesearch/fig2.png" src="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/conesearch/fig2.png" /></a></p>
+<p>Results appear in a new window, with the text that was typed, and links to the object that was found, here ZTF19acwkwhu.</p>
+</div>
+<div class="section" id="deep-search">
+<h2>Deep Search<a class="headerlink" href="#deep-search" title="Permalink to this headline">  ∞</a></h2>
+<div class="admonition-todo admonition" id="id2">
+<p class="admonition-title">Todo</p>
+<ul class="simple">
+<li><p>Flesh out how to use the lasair deep search/watchlists … text below is from old pages</p></li>
+</ul>
+</div>
+<div class="section" id="how-to-query-transients">
+<h3>How to query transients<a class="headerlink" href="#how-to-query-transients" title="Permalink to this headline">  ∞</a></h3>
+<p>The Lasair database has information about objects and candidates. Each candidate is a detection made by the telescope, and the collection of detections of a given star is an object. Queries are written with the SQL language, that is built in three pieces through the Lasair web interface:</p>
+<ul class="simple">
+<li><p>WHAT you are selecting (“Select Attributes”)</p></li>
+<li><p>WHICH tables to use, and</p></li>
+<li><p>CONDITIONS on what you are selecting (“Where”).</p></li>
+</ul>
+<p><a class="reference external" href="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/query/fig1.png"><img alt="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/query/fig1.png" src="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/query/fig1.png" /></a></p>
+<p>This example query looks for objects within the Orion Nebula. Once you have logged in to Lasair, you can create a query from the /myquery page, shown at left. Write a name and description, then keep the query inactive and not public (first 2 green boxes). The “select attributes” box has autocomplete for the possible attributes, which are also listed in detail at the /schema page. In this case we chose the object identifier objectId, and the number of good candidates, ncandgp. Select only the objects table – meaning no joins. The “where” box has the square degree of the sky which is the Orion Nebula. Then click “Create query”.</p>
+<p><a class="reference external" href="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/query/fig2.png"><img alt="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/query/fig2.png" src="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/query/fig2.png" /></a></p>
+<p>Now we can run the query. Go to the page /objlist and find your saved query, then click on its name (green box). The form fields above are now filled in with the details</p>
+<p><a class="reference external" href="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/query/fig3.png"><img alt="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/query/fig3.png" src="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/query/fig3.png" /></a></p>
+<p>In addition to the saved query, we can add an additional constraint (green box), where we restrict to objects that have had a detection in the last 10 days. Now click “Run filter”.</p>
+<p><a class="reference external" href="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/query/fig4.png"><img alt="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/query/fig4.png" src="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/query/fig4.png" /></a></p>
+<p>The results appear, as a table with the columns as specified in the “select attributes” part of the query. The actual SQL that runs against the database is shown. You can see (red boxes) an execution time limit of 300 seconds, the “recent” events constraint written as objects.jdmax $gt; JDNOW() - 10.00000, and a limit of 1000 results. If more, there will be a link to the next page of results. Notice that the objectId is a link</p>
+<p><a class="reference external" href="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/query/fig5.png"><img alt="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/query/fig5.png" src="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/query/fig5.png" /></a></p>
+<p>This is the information page for a Lasair object. You can see the light curve (top left) and sky locations for the candidates. There is a wealth of information (see this page). In particular, you can click on the “Simbad” link, which fetches information about this source.</p>
+<p><a class="reference external" href="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/query/fig6.png"><img alt="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/query/fig6.png" src="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/query/fig6.png" /></a></p>
+<p>The Simbad database tells us that the star we selected is a Variable Star of Orion type.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="metadata-tags.html" class="btn btn-neutral float-right" title="Transient Metadata Tags" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Lasair. A UK Transient Science Platform." accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2022, The University of Edinburgh and Queen&#39;s University Belfast
+
+    </p>
+  </div>
+    
+    
+      Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -15,13 +15,17 @@
 [![](https://readthedocs.org/projects/lasair/badge/?version=master)](https://lasair.readthedocs.io/en/master/)  
 [![](https://img.shields.io/github/issues/lsst-uk/lasair_api/type:%20bug?label=bug%20issues)](https://github.com/lsst-uk/lasair_api/issues?q=is%3Aissue+is%3Aopen+label%3A%22type%3A+bug%22+)  
 
-*Documentation for the Lasair Transient Alert Broker*.
+# Lasair. A UK Transient Science Platform.
 
-Documentation for lasair is hosted by [Read the Docs](https://lasair.readthedocs.io/en/master/) ([development version](https://lasair.readthedocs.io/en/develop/) and [master version](https://lasair.readthedocs.io/en/master/)). The code lives on [github](https://github.com/lsst-uk/lasair_api). Please report any issues you find [here](https://github.com/lsst-uk/lasair_api/issues).
+*Lasair* is being developed by The University of Edinburgh and Queen\'s University Belfast with the ultimate goal of serving transient alerts from the future [Rubin Legacy Survey of Space and Time (LSST)](https://www.lsst.org) to the astronomical community. *Lasair* (pronounced '*L-AH-s-uh-r*') means flame or flash in Scots and Irish gaelic. To prototype functionality needed to process transient event alerts from LSST, Lasair is currently processing and serving data from the public stream of the [Zwicky Transient Facility (ZTF)](http://www.ztf.caltech.edu/), which is releasing a transient alert stream in a format similar to that envisaged for LSST. We thank ZTF for access to this valuable public data stream.
 
-## Features
+If you make use of Lasair in any of your work, please remember to cite our paper: 
 
-* 
+> *[Lasair: The Transient Alert Broker for LSST:UK](https://doi.org/10.3847/2515-5172/ab020f)*, K. W. Smith, R. D. Williams et. al., Research Notes AAS, **3**,26 (2019).
+
+Documentation for Lasair is hosted on [Read the Docs](https://lasair.readthedocs.io/en/main/). The code lives on [github](https://github.com/orgs/lsst-uk/repositories?q=lasair&type=all&language=&sort=). 
+
+
 
 
 

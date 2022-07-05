@@ -65,7 +65,7 @@ html_theme_options = {
     'titles_only': False,
     'github_user': 'lsst-uk',
     'github_repo': 'lasair_api',
-    'strap_line': "Documentation for the Lasair Transient Alert Broker"
+    'strap_line': "Documentation for the Lasair Transient Science Platform"
 }
 html_theme_path = ['_static/whistles-theme/sphinx/_themes']
 # html_title = None

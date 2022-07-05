@@ -1,0 +1,377 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Watchlists &mdash; lasair v0.0.3 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/rtd_sphinx_search.min.css" type="text/css" />
+  <link rel="stylesheet" href="_static/whistles-theme/Contents/Resources/core.css" type="text/css" />
+  <link rel="stylesheet" href="_static/whistles-theme/Contents/Resources/style.css" type="text/css" />
+  <link rel="stylesheet" href="_static/whistles-theme/Contents/Resources/dryx.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/js/rtd_sphinx_search.min.js"></script>
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script >mermaid.initialize({startOnLoad:true});</script>
+        <script src="_static/whistles-theme/Contents/Resources/main.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Sky Regions" href="sky-regions.html" />
+    <link rel="prev" title="Transient Metadata Tags" href="metadata-tags.html" />
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          messageStyle: "none",
+          tex2jax: {preview: "none"}
+        });
+    </script>
+  
+  <!-- REMOTE SCRIPTS AND STYLES -->
+
+  <link rel="stylesheet" media="all" href="https://cdnjs.cloudflare.com/ajax/libs/bigfoot/2.1.4/bigfoot-number.min.css">
+  <link rel="stylesheet" media="all" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/monokai-sublime.min.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_HTML"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.4/mermaid.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowchart/1.11.3/flowchart.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bigfoot/2.1.4/bigfoot.min.js"></script>
+
+  
+
+
+
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: white" >
+          
+
+
+          
+              
+          
+
+
+<!--           
+            <a href="index.html" class="icon icon-home"> lasair
+          
+
+          
+            
+            <img src="_static/lasair_icon_transparent.png" class="logo" alt="Logo"/>
+          
+          </a> -->
+
+
+
+          
+            <a href="index.html" class="icon icon-home"> lasair</a> <p>Documentation for the Lasair Transient Science Platform</p> <a href="index.html"><img src="_static/lasair_icon_transparent.png" class="logo" alt="Logo"/> </a>
+          
+
+
+          
+          
+            
+            
+              <div class="version">
+                v0.0.3
+              </div>
+            
+          
+
+          
+              <a class="github-button" href="https://github.com/lsst-uk/lasair_api" data-size="large" data-show-count="true" aria-label="Star lsst-uk/lasair_api on GitHub">Star</a>
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Features</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="lasair-search.html">Lasair Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="metadata-tags.html">Transient Metadata Tags</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Watchlists</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#static-watchlists">Static Watchlists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#create-new-watchlist">Create new watchlist</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#build-a-watchlist-of-your-sources">Build a Watchlist of your sources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#find-outbursts-from-my-watchlist">Find outbursts from my watchlist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-real-time-alerts-from-ztf">Get real-time alerts from ZTF</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#smart-watchlists">Smart Watchlists</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sky-regions.html">Sky Regions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Digging Deeper</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="alert-streams.html">Alert Streams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rest-api.html">Lasair API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python-notebooks.html">Python Notebooks</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faqs.html">FAQs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact Us</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Extras</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="lasair-presentations.html">Lasair Talks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes_link.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="todolist.html">Todo List</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">lasair</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Watchlists</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/watchlists.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="watchlists">
+<h1>Watchlists<a class="headerlink" href="#watchlists" title="Permalink to this headline">  ∞</a></h1>
+<p><strong>Table of Contents</strong></p>
+<ul class="simple">
+<li><p><a class="reference external" href="#static-watchlists">Static Watchlists</a></p></li>
+<li><p><a class="reference external" href="#create-new-watchlist">Create new watchlist</a><ul>
+<li><p><a class="reference external" href="#build-a-watchlist-of-your-sources">Build a Watchlist of your sources</a></p></li>
+<li><p><a class="reference external" href="#find-outbursts-from-my-watchlist">Find outbursts from my watchlist</a></p></li>
+<li><p><a class="reference external" href="#get-real-time-alerts-from-ztf">Get real-time alerts from ZTF</a></p></li>
+</ul>
+</p></li>
+<li><p><a class="reference external" href="#smart-watchlists">Smart Watchlists</a></p></li>
+</ul>
+<div class="section" id="static-watchlists">
+<h2>Static Watchlists<a class="headerlink" href="#static-watchlists" title="Permalink to this headline">  ∞</a></h2>
+<div class="admonition-todo admonition" id="id1">
+<p class="admonition-title">Todo</p>
+<ul class="simple">
+<li><p>Flesh out how to use static watchlists … text below is from old pages</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="create-new-watchlist">
+<h2>Create new watchlist<a class="headerlink" href="#create-new-watchlist" title="Permalink to this headline">  ∞</a></h2>
+<p>A watchlist is a set of points in the sky, together with a radius in arcseconds. It is assumed to be a list of “interesting” sources, so that any transient that falls within the radius of one of the sources might indicate activity of that source. Each user of the Lasair system has their own set of watchlists, and can be alerted when a ZTF transient is coincident with a watchlist source.</p>
+<p>You can create a watchlist of sources by preparing a text file, where each comma-separated or |-separated line has RA and Dec in decimal degrees, an identifier, with optional radius in arcseconds. One way to do this is with <a class="reference external" href="http://vizier.u-strasbg.fr/viz-bin/VizieR">Vizier</a> and a spreadsheet program such as Excel or Numbers. Here is <a class="reference external" href="https://lasair-ztf.lsst.ac.uk/lasair/static/BLLac.txt">an example of the data</a>. The 42 entries are <em>BL Lac candidates for TeV observations (Massaro+, 2013)</em></p>
+<p>An “Active” watchlist is one that is run every day, so that it is up to date with the latest objects.</p>
+<p>You must be logged in to create a watchlist</p>
+<div class="section" id="build-a-watchlist-of-your-sources">
+<h3>Build a Watchlist of your sources<a class="headerlink" href="#build-a-watchlist-of-your-sources" title="Permalink to this headline">  ∞</a></h3>
+<p>Many astronomers are interested in transients that are associated with specific astronomical objects, perhaps active galaxies or star formation regions. Once you have an account on Lasair, you can create any number of watchlists, to be used in the query engine. To be specific, suppose we are interested in the 42 objects in the catalogue BL Lac candidates for TeV observations (Massaro+, 2013), that can be found in the Vizier library of catalogues. You can make your watchlist “public”, so other Lasair users can see it and use it in queries, and you can make your watchlist “active”, meaning that the crossmatch (see below) is done automatically every day.</p>
+<p><a class="reference external" href="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/watchlist/fig1.png"><img alt="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/watchlist/fig1.png" src="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/watchlist/fig1.png" /></a></p>
+<p>How to use the Vizier interface to get suitable data to upload. Once you have your catalogue,</p>
+<ul class="simple">
+<li><p>deselect all the columns</p></li>
+<li><p>select a column that can act as the ID for each source. These need to be unique and not empty: if not, you must edit the resulting file to make it so.</p></li>
+<li><p>Choose “Decimal” for the coordinates</p></li>
+<li><p>Choose “|-separated” for the format</p></li>
+<li><p>Click submit to download the file.</p></li>
+</ul>
+<p><a class="reference external" href="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/watchlist/fig2.png"><img alt="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/watchlist/fig2.png" src="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/watchlist/fig2.png" /></a></p>
+<p>Fill in the name and description of the watchlist. Choose a default value of the radius to use in matching, in arcseconds. Open the file and paste the contents. Each line should be RA, Dec, ID, and may have a fourth entry, the radius to use in matching, in arcseconds, if different from the default. Then click “Submit Form”.</p>
+<p><a class="reference external" href="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/watchlist/fig3.png"><img alt="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/watchlist/fig3.png" src="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/watchlist/fig3.png" /></a></p>
+<p>Here is a successful creation of a watchlist. Some messages – “Bad line” – because there were some lines without data, but you can ignore these, and look for where it says “Watchlist created successfully”. You can now find it in the list of “My Watchlists”.</p>
+<p><a class="reference external" href="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/watchlist/fig4.png"><img alt="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/watchlist/fig4.png" src="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/watchlist/fig4.png" /></a></p>
+<p>Click on any of your watchlists, and look for the button “Run Crossmatch”. This finds all the transients that are within the radius of any of the sources of the watchlist. The left four columns come from your input, and the right four from the Lasair crossmatch. There is a clickable objectId, the number of candidates of that object, and other information.</p>
+</div>
+<div class="section" id="find-outbursts-from-my-watchlist">
+<h3>Find outbursts from my watchlist<a class="headerlink" href="#find-outbursts-from-my-watchlist" title="Permalink to this headline">  ∞</a></h3>
+<p>Once you have made a watchlist, you may be interested in being notified whenever something unusual – outburst for example – happens to one of your sources. Thus we combine a watchlist with a query on magnitude that detects fast rise. For the watch list see Build a Watchlist of your sources, and for the query we utilise the moving averages of apparent magnitudes that Lasair provides. See this paper for more information.</p>
+<p><a class="reference external" href="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/outbursts/fig1.png"><img alt="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/outbursts/fig1.png" src="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/outbursts/fig1.png" /></a></p>
+<p>For this example, we use a watchlist of 56 AM CVn stars, which are binaries of compact object (eg white dwarf) with a very short orbit – less than an hour. This screenshot shows a recent crossmatch of the watchlist with ZTF.</p>
+<p><a class="reference external" href="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/outbursts/fig2.png"><img alt="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/outbursts/fig2.png" src="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/outbursts/fig2.png" /></a></p>
+<p>This is the active query, that builds a Kafka stream, and joins the object table with the watchlist shown above. The selection criterion at the bottom looks for a magnitude difference between the 2-day moving average (latest_dc_mag_g02), and the 28-day moving average (latest_dc_mag_g28), and requires a difference of at least 0.5 magnitude in both g and r.</p>
+<p><a class="reference external" href="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/outbursts/fig3.png"><img alt="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/outbursts/fig3.png" src="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/outbursts/fig3.png" /></a></p>
+<p>Here is some output from the query in a period of 6 days. The same object appears several times (SDSS J1240-0159).</p>
+<p><a class="reference external" href="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/outbursts/fig4.png"><img alt="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/outbursts/fig4.png" src="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/outbursts/fig4.png" /></a></p>
+<p>We see in the light curve the brightening by 5 magnitudes. Make sure you select the “Apparent Magnitude”, which are more more suitable for variable star work.</p>
+</div>
+<div class="section" id="get-real-time-alerts-from-ztf">
+<h3>Get real-time alerts from ZTF<a class="headerlink" href="#get-real-time-alerts-from-ztf" title="Permalink to this headline">  ∞</a></h3>
+<p>The Lasair broker can send immediate “push” notifications when your active query/filter sees and interesting alert. Here is how to make that happen with email notification. First make sure you are logged in to your Lasair account (top left of screen, then go to create new stored query. This page is about how to get email alerts from your active query; the process is very similar for Kafka alerts, except that you will fetch the results by machine instead of by email. See article Reading a Kafka Stream.</p>
+<p><a class="reference external" href="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/realtimealerts/fig1.png"><img alt="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/realtimealerts/fig1.png" src="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/realtimealerts/fig1.png" /></a></p>
+<p>Fill in the form as shown here. Name and description, then check the “email” box, and fill in the SELECT as</p>
+<p>objects.objectId, objects.latestrmag, jdnow()-objects.jdmax as since</p>
+<p>check the “objects” table, and fill in the WHERE as</p>
+<p>objects.latestrmag &lt; 12</p>
+<p>Then click “Create Query”</p>
+<p><a class="reference external" href="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/realtimealerts/fig2.png"><img alt="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/realtimealerts/fig2.png" src="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/realtimealerts/fig2.png" /></a></p>
+<p>Nothing will happen immediately. You can run the query in the usual way from the web browser, but you will have to wait for some alerts to arrive before your active query will be triggered. Once that happens, you will get an email at the address you used to create your account. Something like the message shown here. Note that the attributes you chose above are reported (objectId, latestrmag, since), together with the UTC time at which the alert was triggered.</p>
+<p><a class="reference external" href="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/realtimealerts/fig3.png"><img alt="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/realtimealerts/fig3.png" src="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/realtimealerts/fig3.png" /></a></p>
+<p>In addition to the email, the webserver holds the last 1000 alerts that went to this channel. The link is in your list of queries.</p>
+<p><a class="reference external" href="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/realtimealerts/fig4.png"><img alt="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/realtimealerts/fig4.png" src="https://lasair-ztf.lsst.ac.uk/lasair/static/cookbook/realtimealerts/fig4.png" /></a></p>
+<p>Click on that link and it will show you a page like this one.</p>
+</div>
+</div>
+<div class="section" id="smart-watchlists">
+<h2>Smart Watchlists<a class="headerlink" href="#smart-watchlists" title="Permalink to this headline">  ∞</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="sky-regions.html" class="btn btn-neutral float-right" title="Sky Regions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="metadata-tags.html" class="btn btn-neutral float-left" title="Transient Metadata Tags" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2022, The University of Edinburgh and Queen&#39;s University Belfast
+
+    </p>
+  </div>
+    
+    
+      Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
