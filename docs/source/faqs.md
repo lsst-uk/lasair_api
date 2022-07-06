@@ -57,7 +57,7 @@ A query operates on the whole database of alerts, but a Filter only runs on new 
 
 ## What is the schema of the Lasair database?
 
-Can be found at the [schema page](https://lasair-iris.roe.ac.uk/schema).
+Can be found at the [schema page](https://lasair-ztf.lsst.ac.uk/schema).
 
 ## How do I choose which alerts are interesting to me?
 
@@ -65,7 +65,7 @@ Choosing interesting alerts can be based on several criteria: The characteristic
 
 ## Why should I register on the Lasair website?
 
-Registration is easy, and just requires a valid email (signup [here](https://lasair-iris.roe.ac.uk/signup)). You can then build and save queries, watchlists, and sky areas, convert those to real-time slert treams, and use the Lasair API.
+Registration is easy, and just requires a valid email (signup [here](https://lasair-ztf.lsst.ac.uk/signup)). You can then build and save queries, watchlists, and sky areas, convert those to real-time slert treams, and use the Lasair API.
 
 ## Besides Lasair, what other websites carry astronommical transients?
 
@@ -81,15 +81,15 @@ Lasair supports "sky areas", defined by a [MOC](https://cds-astro.github.io/mocp
 
 Can I get alerts associated with my favourite sources?
 
-You can build a "watchlist" of your favourite sources, and build a corresponding query that includes crossmatch with that watchlist. Instructions are [here](https://lasair-iris.roe.ac.uk/cookbook/watchlist/).
+You can build a "watchlist" of your favourite sources, and build a corresponding query that includes crossmatch with that watchlist. Instructions are [here](https://lasair-ztf.lsst.ac.uk/cookbook/watchlist/).
 
 ## Can Lasair alert me about supernovae and kilonovae?
 
-There are some filters already built that find alerts in the outskirts of galaxies, see [here](https://lasair-iris.roe.ac.uk/querylist/promoted/). There are also queries that find supernovae already reported to the [Transient Name Service](https://www.wis-tns.org/).
+There are some filters already built that find alerts in the outskirts of galaxies, see [here](https://lasair-ztf.lsst.ac.uk/querylist/promoted/). There are also queries that find supernovae already reported to the [Transient Name Service](https://www.wis-tns.org/).
 
 ## Can Lasair alert me about gravitational-wave events?
 
-Lasair receives immediate notification of gravitational wave alerts. See [here](https://lasair-iris.roe.ac.uk/skymap)
+Lasair receives immediate notification of gravitational wave alerts. See [here](https://lasair-ztf.lsst.ac.uk/skymap)
 
 How can I find out about the ZTF survey?
 
@@ -108,7 +108,7 @@ General FAQ on LSST and Rubin is [here](https://www.lsst.org/content/rubin-obser
 
 ## How can I write code and notebooks that use the Lasair database?
 
-The documentation is [here](https://lasair-iris.roe.ac.uk/code)
+The documentation is [here](https://lasair-ztf.lsst.ac.uk/code)
 
 ## How can I mine a million Lasair light curves?
 
