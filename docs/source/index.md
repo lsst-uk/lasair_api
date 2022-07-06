@@ -7,9 +7,7 @@ If you are new to Lasair, start here by learning about our core features.
 ```eval_rst
 .. toctree::
    :maxdepth: 1
-   :caption: Features
-   :name: features
-
+   :caption: Core Services
 
    lasair-search
    metadata-tags
