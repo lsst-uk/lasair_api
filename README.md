@@ -6,7 +6,7 @@ NAME
 
 DESCRIPTION
     This class enables programmatic access to the Lasair database and Sherlock service, 
-    as described at http://lasair-iris.roe.ac.uk/api/.
+    as described at http://lasair-ztf.lsst.ac.uk/api/.
     
     Args:
         token (string): The Calls are throttled by the lasair server, by use of an 
