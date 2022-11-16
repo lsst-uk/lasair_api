@@ -2,7 +2,7 @@
 
 {{../../README.md}}
 
-If you are new to Lasair, start here by learning about our core features. 
+If you are new to Lasair, start here by learning about our core features:
 
 ```eval_rst
 .. toctree::
