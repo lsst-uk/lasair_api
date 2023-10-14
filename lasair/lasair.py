@@ -24,9 +24,10 @@ class LasairError(Exception):
         self.message = message
 
 class lasair_client():
-    def __init__(self, token, cache=None, endpoint='https://lasair-ztf.lsst.ac.uk/api'):
+    def __init__(self, token, cache=None, endpoint='https://lasair-ztf.lsst.ac.uk/api', timeout=60.0):
         self.headers = { 'Authorization': 'Token %s' % token }
         self.endpoint = endpoint
+        self.timeout = timeout
         self.cache = cache
         if cache and not os.path.isdir(cache):
             message = 'Cache directory "%s" does not exist' % cache
@@ -35,7 +36,7 @@ class lasair_client():
     def fetch_from_server(self, method, input):
         url = '%s/%s/' % (self.endpoint, method)
         try:
-            r = requests.post(url, data=input, headers=self.headers, timeout=60.0)
+            r = requests.post(url, data=input, headers=self.headers, timeout=self.timeout)
         except requests.exceptions.ReadTimeout:
             raise LasairError('Request timed out')
 
@@ -43,7 +44,7 @@ class lasair_client():
             try:
                 result = r.json()
             except:
-                result = {'error': 'Cannot parse Json'}
+                result = {'error': 'Cannot parse Json %s' % r.text}
         elif r.status_code == 400:
             message = 'Bad Request:' + r.text
             raise LasairError(message)
@@ -267,6 +268,9 @@ class lasair_consumer():
         """ Polls for a message on the consumer with timeout is seconds
         """
         return self.consumer.poll(timeout)
+
+    def close(self):
+        self.consumer.close()
 
 class lasair_producer():
     """ Creates a Kafka producer for Lasair annotations """
