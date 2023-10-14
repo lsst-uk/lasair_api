@@ -145,6 +145,9 @@ CLASSES
         poll(self, timeout = 10):
             Polls for a message on the consumer with timeout is seconds
 
+        close():
+            Closes the consumer
+
     class lasair_producer():
         Creates a Kafka producer for Lasair annotations
 
