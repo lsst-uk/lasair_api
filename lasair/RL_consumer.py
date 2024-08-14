@@ -1,9 +1,9 @@
 """
-Restriction consumer. Reads messages from Kafka that have an objectId,
+Rate limited consumer. Reads messages from Kafka that have an objectId,
 but the poll method returns only those where the object 
 has not been seen in given interval.
 Keeps track of when a given objectId was last passed through ('accepted'), 
-and only accepts those that have not been accepted during interval 'interlude'.
+and only accepts those that have not been accepted during interval 'interval'.
 Also keeps track of number of rejects per objectId since last time 
 it was accepted.
 
@@ -22,20 +22,20 @@ def now():
 def now_human():
     return datetime.datetime.now()
 
-class lasair_restriction_consumer():
-    def __init__(self, host, group_id, topic_in, filename, interlude=30, verbose=None):
+class lasair_RL_consumer():
+    def __init__(self, host, group_id, topic_in, filename, interval=30, verbose=None):
         """ Consume a Kafka stream from Lasair but restricted 
-        to objectId that has not been seen in time "interlude".
+        to objectId that has not been seen in time "interval".
         args:
             host:     Host name:port for consuming Kafka
             group_id: a string. If used before, the server will start from last message
             topic_in: The topic to be consumed. Example 'lasair_2SN-likecandidates'
             filename: where to keep the sqlite database
-            interlude: days to wait before sending same objectId
+            interval: days to wait before sending same objectId
         """
         self.conn = sqlite3.connect(filename)
         self.topic_in = topic_in
-        self.interlude = interlude
+        self.interval = interval
         self.verbose = verbose
         self.createTable()
         settings = { 
@@ -64,7 +64,7 @@ class lasair_restriction_consumer():
             objectId = json.loads(msg.value())['objectId']
             if self.verbose:
                 print('consume: %s' % objectId)
-            if self.ago(objectId) < self.interlude:
+            if self.ago(objectId) < self.interval:
                 self.reject(objectId)
                 if self.verbose:
                     print('consume: %s rejected' % objectId)
@@ -92,7 +92,7 @@ class lasair_restriction_consumer():
             print('Created table')
     
     def reject(self, objectId):
-        # objectId already sent within interlude, dont send, 
+        # objectId already sent within interval, dont send, 
         # just increment the number of times seen since last accept
         nw = now()
         queryfmt = """
@@ -106,7 +106,7 @@ class lasair_restriction_consumer():
             print('%s rejected' % objectId)
     
     def accept(self, objectId):
-        # objectId not present or not sent since interlude, 
+        # objectId not present or not sent since interval, 
         # so update or create record in database
         nw = now()
         queryfmt = """
@@ -167,21 +167,3 @@ class lasair_restriction_consumer():
         for row in cursor.fetchall():
             print('%s accepted %.3f days ago, rejected %d times' \
             % (row[0], nw-row[1], row[2]))
-
-if __name__ == '__main__':
-    rc = lasair_restriction_consumer(
-        'kafka.lsst.ac.uk',
-        'LASAIR3',
-        'lasair_2NEEDLESLSNroycandidates',
-        './data.sql',
-        interlude=0.05,  # an hour
-        verbose=True
-    )
-
-    while 1:
-        msg = rc.poll()
-        if msg is None:
-            break;
-        objectId = json.loads(msg.value())['objectId']
-        print('---> found', objectId)
-    rc.printall()
