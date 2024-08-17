@@ -1,20 +1,3 @@
-Metadata-Version: 2.1
-Name: lasair
-Version: 0.0.6
-Summary: A client for the Lasair database
-Home-page: https://github.com/lasair-uk/lasair_api
-Author: RoyDavidWilliams
-Author-email: roydavidwilliams@gmail.com
-License: MIT
-Classifier: Development Status :: 4 - Beta
-Classifier: License :: OSI Approved :: MIT License
-Classifier: Programming Language :: Python :: 3.6
-Classifier: Topic :: Utilities
-Requires-Python: >=3.6
-Description-Content-Type: text/markdown
-License-File: LICENSE
-Requires-Dist: requests
-
 # lasair_api
 Client package for Lasair
 
@@ -23,7 +6,7 @@ NAME
 
 DESCRIPTION
     This class enables programmatic access to the Lasair database and Sherlock service, 
-    as described at http://lasair-ztf.lsst.ac.uk/api/.
+    as described at http://lasair-iris.roe.ac.uk/api/.
     
     Args:
         token (string): The Calls are throttled by the lasair server, by use of an 
@@ -162,9 +145,6 @@ CLASSES
         poll(self, timeout = 10):
             Polls for a message on the consumer with timeout is seconds
 
-        close():
-            Closes the consumer
-
     class lasair_producer():
         Creates a Kafka producer for Lasair annotations
 
@@ -190,29 +170,20 @@ CLASSES
         def flush(self):
             Finish an annotation session and close the producer
             If not called, your annotations will not go through!
-=======
 
-# lasair
 
-<!-- INFO BADGES -->  
 
-[![](https://img.shields.io/pypi/pyversions/lasair)](https://pypi.org/project/lasair/)  
-[![](https://img.shields.io/pypi/v/lasair)](https://pypi.org/project/lasair/)  
-[![](https://img.shields.io/github/license/lsst-uk/lasair_api)](https://github.com/lsst-uk/lasair_api)  
-[![](https://img.shields.io/pypi/dm/lasair)](https://pypi.org/project/lasair/)  
 
-<!-- STATUS BADGES -->  
+Copyright 2022 The University of Edinburgh and Queen's University Belfast
 
-[![](http://157.245.42.153:8080/buildStatus/icon?job=lasair%2Fmaster&subject=build%20master)](http://157.245.42.153:8080/blue/organizations/jenkins/lasair/activity?branch=master)  
-[![](http://157.245.42.153:8080/buildStatus/icon?job=lasair%2Fdevelop&subject=build%20dev)](http://157.245.42.153:8080/blue/organizations/jenkins/lasair/activity?branch=develop)  
-[![](https://cdn.jsdelivr.net/gh/lsst-uk/lasair_api@master/coverage.svg)](https://raw.githack.com/lsst-uk/lasair_api/master/htmlcov/index.html)  
-[![](https://readthedocs.org/projects/lasair/badge/?version=master)](https://lasair.readthedocs.io/en/master/)  
-[![](https://img.shields.io/github/issues/lsst-uk/lasair_api/type:%20bug?label=bug%20issues)](https://github.com/lsst-uk/lasair_api/issues?q=is%3Aissue+is%3Aopen+label%3A%22type%3A+bug%22+)  
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this code except in compliance with the License.
+You may obtain a copy of the License at
 
-*Documentation for the Lasair Transient Alert Broker*.
+   http://www.apache.org/licenses/LICENSE-2.0
 
-Documentation for lasair is hosted by [Read the Docs](https://lasair.readthedocs.io/en/master/) ([development version](https://lasair.readthedocs.io/en/develop/) and [master version](https://lasair.readthedocs.io/en/master/)). The code lives on [github](https://github.com/lsst-uk/lasair_api). Please report any issues you find [here](https://github.com/lsst-uk/lasair_api/issues).
-
-## Features
-
-* 
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.

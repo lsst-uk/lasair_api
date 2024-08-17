@@ -1,0 +1,17 @@
+include README.md
+include README.rst
+include *.yaml
+include *.txt
+include *.md
+include *.rst
+recursive-include lasair *
+global-exclude *.pyo
+global-exclude *.pyc
+recursive-exclude tests *
+recursive-exclude */tests *
+recursive-exclude */*/tests *
+recursive-exclude */*/*/tests *
+recursive-exclude tests
+prune tests*
+global-exclude *_test.py
+global-exclude tests

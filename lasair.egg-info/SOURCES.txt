@@ -1,10 +1,13 @@
+.readthedocs.yaml
+CHANGES.md
 LICENSE
+MANIFEST.in
 README.md
+README_old.md
 setup.py
 lasair/__init__.py
 lasair/__version__.py
 lasair/lasair.py
-lasair/test.py
 lasair.egg-info/PKG-INFO
 lasair.egg-info/SOURCES.txt
 lasair.egg-info/dependency_links.txt
