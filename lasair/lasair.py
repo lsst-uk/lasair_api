@@ -126,29 +126,6 @@ class lasair_client():
         result = self.fetch('query', input)
         return result
 
-    def streams_topics(self, regex='.*', limit=1000):
-        """ Get a list of available streams that match a given expression.
-        args:
-            regex (string, default .*): Search for stream names that match a pattern
-            limit: (int, default 1000): Maximum number of stream names to return.
-        return:
-            List of stream names
-        """
-        input = {'regex':regex, 'limit':limit}
-        result = self.fetch('streams', input)
-        return result
-
-    def streams(self, topic, limit=1000):
-        """ Get records from a given stream
-        args:
-            topic (string): Name of stream to be returned.
-        return:
-            list of dictionaries, each representing a row
-        """
-        input = {'limit':limit}
-        result = self.fetch('streams/%s/'%topic, input)
-        return result
-
     def objects(self, objectIds):
         """ Get object pages in machine-readable form
         args:
