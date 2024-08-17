@@ -22,13 +22,13 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-          'requests',
-      ],
+        'requests'
+    ],
     classifiers=[
-          'Development Status :: 4 - Beta',
-          'License :: OSI Approved :: MIT License',
-          'Programming Language :: Python :: 3.6',
-          'Topic :: Utilities',
+        'Development Status :: 4 - Beta',
+        'License :: OSI Approved :: MIT License',
+        'Programming Language :: Python :: 3.8',
+        'Topic :: Utilities',
     ],
     python_requires='>=3.6',
 )
