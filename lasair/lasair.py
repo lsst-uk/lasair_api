@@ -1,7 +1,7 @@
 """ Lasair API
 
 This class enables programmatic access to the Lasair database and Sherlock service, 
-as described at http://lasair-iris.roe.ac.uk/api/.
+as described at http://lasair-ztf.lsst.ac.uk/api/.
 
 Args:
     token (string): The Calls are throttled by the lasair server, by use of an 
@@ -24,8 +24,8 @@ class LasairError(Exception):
 
 
 class lasair_client():
-    def __init__(self, token, cache=None, endpoint='https://lasair-iris.roe.ac.uk/api'):
-        self.headers = {'Authorization': 'Token %s' % token}
+    def __init__(self, token, cache=None, endpoint='https://lasair-ztf.lsst.ac.uk/api'):
+        self.headers = { 'Authorization': 'Token %s' % token }
         self.endpoint = endpoint
         self.cache = cache
         if cache and not os.path.isdir(cache):
@@ -58,7 +58,8 @@ class lasair_client():
             message = 'Internal Server Error' + r.text
             raise LasairError(message)
         else:
-            message = 'HTTP return code %d' % r.status_code
+            message = 'HTTP return code %d for\n' % r.status_code
+            message += url
             raise LasairError(message)
         return result
 
