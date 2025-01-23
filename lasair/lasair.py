@@ -166,8 +166,18 @@ class lasair_client():
         return:
             dictionary
         """
-        input = {'objectId':objectId, 'lite':lite}
-        result = self.fetch('sherlock/object', input)
+        try:
+            input = {'objectId':objectId, 'lite':lite}
+            result = self.fetch('sherlock/object', input)
+        except:
+            input = {'objectIds':[objectId], 'lite':lite}
+            result = self.fetch('sherlock/objects', input)
+        return result
+
+    def sherlock_objects(self, objectIds, lite=True):
+        """ DEPRECATED """
+        input = {'objectIds':objectIds, 'lite':lite}
+        result = self.fetch('sherlock/objects', input)
         return result
 
     def sherlock_position(self, ra, dec, lite=True):
