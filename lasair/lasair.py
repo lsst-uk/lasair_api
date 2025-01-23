@@ -10,7 +10,7 @@ Args:
     Once a user has an account at the Lasair webserver, they can get their own token
     allowing 100 calls per hour, or request to be a power user, with infinite usage.
 
-    cache (string): Results can be cached on a local filesystem, by providing 
+    cache (string): Results can be cached on local filesystem, by providing 
     the name of a writable directory. If the same calls are made repeatedly, 
     this will be much more efficient.
 """
@@ -126,38 +126,16 @@ class lasair_client():
         result = self.fetch('query', input)
         return result
 
-    def streams_topics(self, regex='.*', limit=1000):
-        """ Get a list of available streams that match a given expression.
-        args:
-            regex (string, default .*): Search for stream names that match a pattern
-            limit: (int, default 1000): Maximum number of stream names to return.
-        return:
-            List of stream names
-        """
-        input = {'regex':regex, 'limit':limit}
-        result = self.fetch('streams', input)
-        return result
-
-    def streams(self, topic, limit=1000):
-        """ Get records from a given stream
-        args:
-            topic (string): Name of stream to be returned.
-        return:
-            list of dictionaries, each representing a row
-        """
-        input = {'limit':limit}
-        result = self.fetch('streams/%s/'%topic, input)
-        return result
-
     def objects(self, objectIds):
         """ Get object pages in machine-readable form
         args:
-            objectIds: list of objectIds, maximum 10
+            objectIds: list of objectIds
         return:
             list of dictionaries, each being all the information presented
             on the Lasair object page.
         """
-        input = {'objectIds':','.join(objectIds)}
+
+        input = {'objectIds':objectIds}
         result = self.fetch('objects', input)
         return result
 
@@ -170,21 +148,35 @@ class lasair_client():
             is a list of dictionaries, each having attributes
             candid, fid, magpsf, sigmapsf, isdiffpos, mjd
         """
+        if len(objectIds) > 10:
+            raise LasairError('Method can only handle 10 or less objectIds')
+
+        objectIds = [str(obj) for obj in objectIds]
         input = {'objectIds':','.join(objectIds)}
         result = self.fetch('lightcurves', input)
         return result
 
-    def sherlock_objects(self, objectIds, lite=True):
-        """ Query the Sherlock database for context information about objects
+    def sherlock_object(self, objectId, lite=True):
+        """ Query the Sherlock database for context information about an object
             in the database.
         args:
-            objectsIds: list of objectIds, maximum 10
+            objectsId: objectId
             lite (boolean): If true, get extended information including a 
                 list of possible crossmatches.
         return:
-            list of dictionaries, one for each objectId.
+            dictionary
         """
-        input = {'objectIds':','.join(objectIds), 'lite':lite}
+        try:
+            input = {'objectId':objectId, 'lite':lite}
+            result = self.fetch('sherlock/object', input)
+        except:
+            input = {'objectIds':[objectId], 'lite':lite}
+            result = self.fetch('sherlock/objects', input)
+        return result
+
+    def sherlock_objects(self, objectIds, lite=True):
+        """ DEPRECATED """
+        input = {'objectIds':objectIds, 'lite':lite}
         result = self.fetch('sherlock/objects', input)
         return result
 
@@ -218,6 +210,8 @@ class lasair_client():
 
         if not classification or len(classification) == 0:
             raise LasairError('Classification must be a short nontrivial string')
+        if len(version) > 16:
+            raise LasairError('Version must be 16 characters or less')
 
         msg = {
             'objectId'      : objectId, 
