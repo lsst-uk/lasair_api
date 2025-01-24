@@ -161,6 +161,7 @@ class lasair_client():
             result = self.fetch('sherlock/objects', input)
         return result
 
+    def sherlock_position(self, ra, dec, lite=True):
         """ Query the Sherlock database for context information about a position
             in the sky.
         args:
