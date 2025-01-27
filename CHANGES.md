@@ -1,6 +1,6 @@
 # Release Notes
 
-### Version 0.0.7 (2025-01-24)
+### Version 0.1.1 (2025-01-24)
 - The object and the 2 sherlock mothods are all singular now
 - The object method has two new arguments
     - `lite=True` means only some of the attributes from LSST are returned
