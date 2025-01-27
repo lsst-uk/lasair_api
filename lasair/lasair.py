@@ -130,16 +130,14 @@ class lasair_client():
         """ Get object page in machine-readable form
         args:
             objectId: objectId
+            lite: less or more output
+            lasair_added: include lasair_added value or not
         return:
-            dictionry of all the information presented
-            on the Lasair object page.
+            dictionary of all the information 
         """
 
-        input = {'objectIds':objectId}
-        if lasair_added:
-            result = self.fetch('objects', input)[0]
-        else:
-            result = self.fetch('lightcurves', input)[0]
+        input = {'objectId':objectId, 'lite':lite, 'lasair_added':lasair_added}
+        result = self.fetch('object', input)
 
         return result
 
@@ -153,12 +151,8 @@ class lasair_client():
         return:
             dictionary
         """
-        try:
-            input = {'objectId':objectId, 'lite':lite}
-            result = self.fetch('sherlock/object', input)
-        except:
-            input = {'objectIds':[objectId], 'lite':lite}
-            result = self.fetch('sherlock/objects', input)
+        input = {'objectId':objectId, 'lite':lite}
+        result = self.fetch('sherlock/object', input)
         return result
 
     def sherlock_position(self, ra, dec, lite=True):
