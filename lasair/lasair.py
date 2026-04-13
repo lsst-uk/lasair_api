@@ -177,42 +177,6 @@ class lasair_client():
         return result
 
 #######################
-# DEPRECATED METHODS WILL BE REMOVED
-    def lightcurves(self, objectIds):    # DEPRECATED
-        """ Get simple lightcurves in machine-readable form
-        args:
-            objectIds: list of objectIds, maximum 10
-        return:
-            list of dictionaries, one for each objectId. Each of these
-            is a list of dictionaries, each having attributes
-            candid, fid, magpsf, sigmapsf, isdiffpos, mjd
-        """
-        if len(objectIds) > 10:
-            raise LasairError('Method can only handle 10 or less objectIds')
-
-        objectIds = [str(obj) for obj in objectIds]
-        input = {'objectIds':','.join(objectIds)}
-        result = self.fetch('lightcurves', input)
-        return result
-
-    def sherlock_objects(self, objectIds, lite=True):  # DEPRECATED
-        input = {'objectIds':objectIds, 'lite':lite}
-        result = self.fetch('sherlock/objects', input)
-        return result
-
-    def objects(self, objectIds):      # DEPRECATED 
-        """ Get object pages in machine-readable form
-        args:
-            objectIds: list of objectIds
-        return:
-            list of dictionaries, each being all the information presented
-            on the Lasair object page.
-        """
-
-        input = {'objectIds':objectIds}
-        result = self.fetch('objects', input)
-
-#######################
     def annotate(self, topic, objectId, classification, \
             version='0.1', explanation='', classdict={}, url=''):
         """ Send an annotation to Lasair
@@ -279,6 +243,7 @@ class lasair_client():
         result = self.fetch_from_server('annotatelist', input, use_json=True)
         return result
 
+#######################
 class lasair_consumer():
     """ Creates a Kafka consumer for Lasair streams """
     def __init__(self, host, group_id, topic_in):
@@ -318,6 +283,9 @@ class lasair_consumer():
 
     def close(self):
         self.consumer.close()
+
+#######################
+# not used, its a kafka way to create annotations instead of the usual http
 
 class lasair_producer():
     """ Creates a Kafka producer for Lasair annotations """
