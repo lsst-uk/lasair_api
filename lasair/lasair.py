@@ -24,7 +24,7 @@ class LasairError(Exception):
         self.message = message
 
 class lasair_client():
-    def __init__(self, token, cache=None, endpoint='https://lasair-ztf.lsst.ac.uk/api', timeout=60.0):
+    def __init__(self, token, cache=None, endpoint='https://api.lasair.lsst.ac.uk/api', timeout=60.0):
         self.headers = { 'Authorization': 'Token %s' % token }
         self.endpoint = endpoint
         self.timeout = timeout
@@ -33,12 +33,18 @@ class lasair_client():
             message = 'Cache directory "%s" does not exist' % cache
             raise LasairError(message)
 
-    def fetch_from_server(self, method, input):
+    def fetch_from_server(self, method, input, use_json=False):
         url = '%s/%s/' % (self.endpoint, method)
-        try:
-            r = requests.post(url, data=input, headers=self.headers, timeout=self.timeout)
-        except requests.exceptions.ReadTimeout:
-            raise LasairError('Request timed out')
+        if use_json:
+            try:
+                r = requests.post(url, json=input, headers=self.headers, timeout=self.timeout)
+            except requests.exceptions.ReadTimeout:
+                raise LasairError('Request timed out')
+        else:
+            try:
+                r = requests.post(url, data=input, headers=self.headers, timeout=self.timeout)
+            except requests.exceptions.ReadTimeout:
+                raise LasairError('Request timed out')
 
         if r.status_code == 200:
             try:
@@ -236,6 +242,41 @@ class lasair_client():
         }
 
         result = self.fetch_from_server('annotate', msg)
+        return result
+
+    def annotate_list(self, annotations_input):
+        """ Send a batch of annotations to Lasair 
+        """
+        annotations = []
+        for ann in annotations_input:
+            if not 'objectId' in ann:
+                raise 'Missing objectId, annotation rejected\n'
+                error = f'{len(annotations)}th annotation in batch is missing "objectId", batch rejected'
+                raise LasairError(error)
+            if not 'topic' in ann:
+                error = f'{len(annotations)}th annotation in batch is missing "topic", batch rejected'
+                raise LasairError(error)
+                continue
+            if not 'classification' in ann:
+                error = f'{len(annotations)}th annotation in batch is missing "classification", batch rejected'
+                raise LasairError(error)
+                continue
+            if 'version' in ann:
+                version = ann['version'][:16]
+            else:
+                version = '0.1'
+            classdict = ann.get('classdict', {})
+            annotations.append({
+                'objectId'      : ann['objectId'], 
+                'topic'         : ann['topic'],
+                'classification': ann['classification'],
+                'version'       : version,
+                'explanation'   : ann.get('explanation', ''),
+                'classdict'     : json.dumps(classdict),
+                'url'           : ann.get('url', ''),
+            })
+        input = {'annotations': annotations}
+        result = self.fetch_from_server('annotatelist', input, use_json=True)
         return result
 
 class lasair_consumer():
