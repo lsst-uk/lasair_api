@@ -250,17 +250,17 @@ class lasair_client():
         annotations = []
         for ann in annotations_input:
             if not 'objectId' in ann:
-                raise 'Missing objectId, annotation rejected\n'
                 error = f'{len(annotations)}th annotation in batch is missing "objectId", batch rejected'
                 raise LasairError(error)
+                return 0
             if not 'topic' in ann:
                 error = f'{len(annotations)}th annotation in batch is missing "topic", batch rejected'
                 raise LasairError(error)
-                continue
+                return 0
             if not 'classification' in ann:
                 error = f'{len(annotations)}th annotation in batch is missing "classification", batch rejected'
                 raise LasairError(error)
-                continue
+                return 0
             if 'version' in ann:
                 version = ann['version'][:16]
             else:
