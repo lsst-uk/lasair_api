@@ -177,6 +177,24 @@ class lasair_client():
         return result
 
 #######################
+    MARK_FAVOURITE = 'favourite'
+    MARK_HIDDEN = 'hidden'
+    MARKS = (MARK_FAVOURITE, MARK_HIDDEN)
+
+    def mark(self, objectId, mark):
+        """ Create a mark, favourite or hidden
+        args:
+            objectId      : the object that this annotation should be attached to
+            mark          : one of the MARKS
+        """
+        if isinstance(objectId, list ):
+            msg = { 'diaObjectIds' : objectId, 'mark': mark}
+        else:
+            msg = { 'diaObjectId'  : objectId, 'mark': mark}
+
+        result = self.fetch_from_server('mark', msg)
+        return result
+
     def annotate(self, topic, objectId, classification, \
             version='0.1', explanation='', classdict={}, url=''):
         """ Send an annotation to Lasair
