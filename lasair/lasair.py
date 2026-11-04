@@ -147,13 +147,15 @@ class lasair_client():
 
         return result
 
+    # 2026-11-04: KWS/RW/Claude - fixed the lite docstring.
     def sherlock_object(self, objectId, lite=True):
         """ Query the Sherlock database for context information about an object
             in the database.
         args:
             objectsId: objectId
-            lite (boolean): If true, get extended information including a 
-                list of possible crossmatches.
+            lite (boolean): If true (default), get only the summary classification.
+                If false, get extended information including a list of
+                possible crossmatches.
         return:
             dictionary
         """
@@ -161,14 +163,16 @@ class lasair_client():
         result = self.fetch('sherlock/object', input)
         return result
 
+    # 2026-11-04: KWS/RW/Claude - fixed the lite docstring.
     def sherlock_position(self, ra, dec, lite=True):
         """ Query the Sherlock database for context information about a position
             in the sky.
         args:
             ra (float): Right Ascension in decimal degrees
             dec (float): Declination in decimal degrees
-            lite (boolean): If true, get extended information including a 
-                list of possible crossmatches.
+            lite (boolean): If true (default), get only the summary classification.
+                If false, get extended information including a list of
+                possible crossmatches.
         return:
             dictionary of contect information
         """

@@ -15,19 +15,24 @@ DESCRIPTION
         Once a user has an account at the Lasair webserver, they can get their own token
         allowing 100 calls per hour, or request to be a power user, with infinite usage.
     
-        cache (string): Results can be cached on a local filesystem, by providing 
+        cache (string): Results can be cached on local filesystem, by providing 
         the name of a writable directory. If the same calls are made repeatedly, 
         this will be much more efficient.
 
 CLASSES
+    class LasairError(builtins.Exception)
+       Raised by the client on bad arguments, HTTP errors (400, 401, 429, 500, ...),
+       request timeouts, or a missing cache directory. The text is in .message
+
     class lasair_client(builtins.object)
        Methods defined here:
        
-       __init__(self, token, cache=None, endpoint='http://192.41.108.37:8080/api')
-           Initialize self.  See help(type(self)) for accurate signature.
+       __init__(self, token, cache=None, endpoint='https://api.lasair.lsst.ac.uk/api', timeout=60.0)
            Args:
+               token: Lasair API token
                cache: name of a directory where results can be cached 
                endpoint: endpoint of the Lasair API service
+               timeout: seconds to wait for the server before raising LasairError
        
        cone(self, ra, dec, radius=5, requestType='all')
            Run a cone search on the Lasair database.
@@ -43,23 +48,6 @@ CLASSES
                objectId: The ID of the nearest object
                separation: the separation in arcseconds
        
-       lightcurves(self, objectIds)
-           Get simple lightcurves in machine-readable form
-           args:
-               objectIds: list of objectIds, maximum 10
-           return:
-               list of dictionaries, one for each objectId. Each of these
-               is a list of dictionaries, each having attributes
-               candid, fid, magpsf, sigmapsf, isdiffpos, mjd
-       
-       objects(self, objectIds)
-           Get object pages in machine-readable form
-           args:
-               objectIds: list of objectIds, maximum 10
-           return:
-               list of dictionaries, each being all the information presented
-               on the Lasair object page.
-       
        query(self, selected, tables, conditions, limit=1000, offset=0)
            Run a database query on the Lasair server.
            args: 
@@ -71,15 +59,25 @@ CLASSES
            return:
                a list of dictionaries, each representing a row
        
-       sherlock_objects(self, objectIds, lite=True)
-           Query the Sherlock database for context information about objects
+       object(self, objectId, lite=True, lasair_added=True)
+           Get object page in machine-readable form
+           args:
+               objectId: objectId
+               lite: less or more output
+               lasair_added: include lasair_added value or not
+           return:
+               dictionary of all the information 
+       
+       sherlock_object(self, objectId, lite=True)
+           Query the Sherlock database for context information about an object
                in the database.
            args:
-               objectsIds: list of objectIds, maximum 10
-               lite (boolean): If true, get extended information including a 
-                   list of possible crossmatches.
+               objectId: objectId
+               lite (boolean): If true (default), get only the summary classification.
+                   If false, get extended information including a list of
+                   possible crossmatches.
            return:
-               list of dictionaries, one for each objectId.
+               dictionary
        
        sherlock_position(self, ra, dec, lite=True)
            Query the Sherlock database for context information about a position
@@ -87,40 +85,50 @@ CLASSES
            args:
                ra (float): Right Ascension in decimal degrees
                dec (float): Declination in decimal degrees
-               lite (boolean): If true, get extended information including a 
-                   list of possible crossmatches.
+               lite (boolean): If true (default), get only the summary classification.
+                   If false, get extended information including a list of
+                   possible crossmatches.
            return:
                dictionary of contect information
        
-       streams(self, topic, limit=1000)
-           Get records from a given stream
+       mark(self, objectId, mark)
+           Create a mark, favourite or hidden
            args:
-               topic (string): Name of stream to be returned.
+               objectId      : the object to be marked, or a list of objectIds
+               mark          : one of the MARKS
            return:
-               list of dictionaries, each representing a row
+               Status message
        
-       streams_topics(self, regex='.*', limit=1000)
-           Get a list of available streams that match a given expression.
+       annotate(self, topic, objectId, classification, \
+           version='0.1', explanation='', classdict={}, url='')
+           Send an annotation to Lasair
+           Note: Only the registered owner of this topic can send annotations to it
            args:
-               regex (string, default .*): Search for stream names that match a pattern
-               limit: (int, default 1000): Maximum number of stream names to return.
+               topic         : the topic for which this user is authenticated
+               objectId      : the object that this annotation should be attached to
+               classification: short string for the classification
+               version       : the version of the annotation engine (16 characters or less)
+               explanation   : natural language explanation
+               classdict     : dictionary with further information
+               url           : url with further information about this classification
            return:
-               List of stream names
-
-        annotate(self, topic, objectId, classification, \
-            version='0.1', explanation='', classdict={}, url='')
-            Send an annotation to Lasair
-            Note: Only the registered owner of this topic can send annotations to it
-            args:
-                topic         : the topic for which this user is authenticated
-                objectId      : the object that this annotation should be attached to
-                classification: short string for the classification
-                version       : the version of the annotation engine
-                explanation   : natural language explanation
-                classdict     : dictionary with further information
-                url           : url with further information about this classification
-            return:
-                Status message
+               Status message
+       
+       annotate_list(self, annotations_input)
+           Send a batch of annotations to Lasair
+           args:
+               annotations_input: list of dictionaries, each with the same keys as
+                   the arguments of annotate(). topic, objectId and classification
+                   are required; if any is missing the whole batch is rejected.
+                   version is truncated to 16 characters.
+           return:
+               Status message
+       
+       Data and other attributes defined here:
+       
+       MARK_FAVOURITE = 'favourite'
+       MARK_HIDDEN = 'hidden'
+       MARKS = ('favourite', 'hidden')
 
     class lasair_consumer(builtins.object)
        Consume a Kafka stream from Lasair
@@ -131,7 +139,7 @@ CLASSES
                 host:     Host name:port for consuming Kafka
                 group_id: a string. If used before, the server will start from last message
                 topic_in: The topic to be consumed. Example 'lasair_2SN-likecandidates'
-            Imports confluent_kafka.
+            Will fail if for some reason the confluent_kafka library cannot be imported.
             Connects to Lasair public kafka to get the chosen topic.
             Once you have the returned consumer object, run it with poll() like this:
             loop:
@@ -150,6 +158,8 @@ CLASSES
 
     class lasair_producer():
         Creates a Kafka producer for Lasair annotations
+        Note: Not normally used. This is a Kafka alternative to the usual HTTP
+        annotate() and annotate_list() methods of lasair_client.
 
         def __init__(self, host, username, password, topic_out):
             Tell the Lasair client that you will be producing annotations
@@ -158,7 +168,7 @@ CLASSES
                 username: as given to you by Lasair staff
                 password: as given to you by Lasair staff
                 topic_out: as given to you by Lasair staff
-            Imports confluent_kafka.
+            Will fail if for some reason the confluent_kafka library cannot be imported.
 
         def produce(self, objectId, classification, \
             version=None, explanation=None, classdict=None, url=None):
@@ -169,6 +179,7 @@ CLASSES
                 version       : the version of the annotation engine
                 explanation   : natural language explanation
                 classdict     : dictionary with further information
+                url           : url with further information about this classification
     
         def flush(self):
             Finish an annotation session and close the producer
