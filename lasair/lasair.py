@@ -147,7 +147,7 @@ class lasair_client():
 
         return result
 
-    # Claude wrote this (collab mode, unreviewed) — 2026-11-04: lite docstring
+    # 2026-11-04: KWS/RW/Claude - fixed the lite docstring.
     def sherlock_object(self, objectId, lite=True):
         """ Query the Sherlock database for context information about an object
             in the database.
@@ -163,7 +163,7 @@ class lasair_client():
         result = self.fetch('sherlock/object', input)
         return result
 
-    # Claude wrote this (collab mode, unreviewed) — 2026-11-04: lite docstring
+    # 2026-11-04: KWS/RW/Claude - fixed the lite docstring.
     def sherlock_position(self, ra, dec, lite=True):
         """ Query the Sherlock database for context information about a position
             in the sky.
